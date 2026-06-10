@@ -1003,24 +1003,54 @@ document.getElementById('overlaySub')
 .innerHTML =
 'Luruskan & Rapatkan Shaf';
 
-document.getElementById('overlayCount')
-.innerHTML = '10:00';
 
-let duration = 600;
+// ===============================
+// SET DURASI IQOMAH
+// MAGRIB & ISYA = 8 MENIT
+// LAINNYA = 10 MENIT
+// ===============================
+
+let duration = 600; // default 10 menit
+
+
+if(currentPrayer === 'Maghrib' || currentPrayer === 'Isya'){
+
+duration = 480; // 8 menit
+
+}
+
+
+// tampil awal
+const menitAwal =
+String(Math.floor(duration/60)).padStart(2,'0');
+
+const detikAwal =
+String(duration%60).padStart(2,'0');
+
+document.getElementById('overlayCount')
+.innerHTML =
+`${menitAwal}:${detikAwal}`;
+
+
 
 const interval = setInterval(()=>{
+
 
 const menit =
 String(Math.floor(duration/60)).padStart(2,'0');
 
+
 const detik =
 String(duration%60).padStart(2,'0');
+
 
 document.getElementById('overlayCount')
 .innerHTML =
 `${menit}:${detik}`;
 
+
 duration--;
+
 
 if(duration < 0){
 
@@ -1030,16 +1060,18 @@ finishIqomah();
 
 }
 
+
 },1000);
 
 }
+
 
 /* ================= SELESAI ================= */
 
 function finishIqomah(){
 
 modeIqomah = false;
-
+ 
 document.getElementById('overlay')
 .style.display = 'none';
 
