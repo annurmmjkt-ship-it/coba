@@ -991,6 +991,8 @@ finishJumat();
 
 /* ================= IQOMAH ================= */
 
+let iqomahTimer;
+
 function startIqomah(){
 
 modeAzan = false;
@@ -1004,44 +1006,23 @@ document.getElementById('overlaySub')
 'Luruskan & Rapatkan Shaf';
 
 
-// ===============================
-// SET DURASI IQOMAH
-// MAGRIB & ISYA = 8 MENIT
-// LAINNYA = 10 MENIT
-// ===============================
-
-let duration = 600; // default 10 menit
+// Default 10 menit
+let duration = 600;
 
 
+// Magrib & Isya 8 menit
 if(currentPrayer === 'Maghrib' || currentPrayer === 'Isya'){
-
-duration = 480; // 8 menit
-
+    duration = 480;
 }
 
 
-// tampil awal
-const menitAwal =
-String(Math.floor(duration/60)).padStart(2,'0');
-
-const detikAwal =
-String(duration%60).padStart(2,'0');
-
-document.getElementById('overlayCount')
-.innerHTML =
-`${menitAwal}:${detikAwal}`;
-
-
-
-const interval = setInterval(()=>{
-
+function hitungIqomah(){
 
 const menit =
-String(Math.floor(duration/60)).padStart(2,'0');
-
+String(Math.floor(duration / 60)).padStart(2,'0');
 
 const detik =
-String(duration%60).padStart(2,'0');
+String(duration % 60).padStart(2,'0');
 
 
 document.getElementById('overlayCount')
@@ -1049,19 +1030,33 @@ document.getElementById('overlayCount')
 `${menit}:${detik}`;
 
 
-duration--;
+// jika sudah habis
+if(duration <= 0){
 
+clearInterval(iqomahTimer);
 
-if(duration < 0){
-
-clearInterval(interval);
+setTimeout(()=>{
 
 finishIqomah();
+
+},1000);
+
+return;
 
 }
 
 
-},1000);
+duration--;
+
+}
+
+
+// tampil awal
+hitungIqomah();
+
+
+// mulai timer
+iqomahTimer = setInterval(hitungIqomah,1000);
 
 }
 
