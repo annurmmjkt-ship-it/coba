@@ -908,9 +908,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat';
 
 document.getElementById('overlayCount')
-.innerHTML = '00:12';
+.innerHTML = '05:00';
 
-let duration = 12;
+let duration = 300;
 
 const interval = setInterval(()=>{
 
@@ -991,204 +991,54 @@ finishJumat();
 
 /* ================= IQOMAH ================= */
 
-let iqomahTimer = null;
-
-
 function startIqomah(){
-
 
 modeAzan = false;
 modeIqomah = true;
 
-
-
-// tampilkan overlay
-
-let overlay =
-document.getElementById('overlay');
-
-
-if(overlay){
-
-overlay.style.display = 'block';
-
-}
-
-
-
-
 document.getElementById('overlayTitle')
 .innerHTML = 'MENUJU IQOMAH';
-
-
 
 document.getElementById('overlaySub')
 .innerHTML =
 'Luruskan & Rapatkan Shaf';
 
-
-
-
-// default 10 menit
+document.getElementById('overlayCount')
+.innerHTML = '10:00';
 
 let duration = 600;
 
+const interval = setInterval(()=>{
 
+const menit =
+String(Math.floor(duration/60)).padStart(2,'0');
 
-
-// Maghrib & Isya = 8 menit
-
-if(
-currentPrayer === 'Maghrib' ||
-currentPrayer === 'Isya'
-){
-
-duration = 480;
-
-}
-
-
-
-
-// hapus timer lama
-
-if(iqomahTimer){
-
-clearInterval(iqomahTimer);
-
-}
-
-
-
-
-function hitungIqomah(){
-
-
-
-let menit =
-String(Math.floor(duration / 60))
-.padStart(2,'0');
-
-
-
-let detik =
-String(duration % 60)
-.padStart(2,'0');
-
-
-
+const detik =
+String(duration%60).padStart(2,'0');
 
 document.getElementById('overlayCount')
 .innerHTML =
 `${menit}:${detik}`;
 
+duration--;
 
+if(duration < 0){
 
-
-
-// selesai
-
-if(duration <= 0){
-
-
-clearInterval(iqomahTimer);
-
-
-
-document.getElementById('overlayCount')
-.innerHTML = '';
-
-
+clearInterval(interval);
 
 finishIqomah();
 
+}
 
-
-return;
+},1000);
 
 }
 
-
-
-duration--;
-
-
-
-}
-
-
-
-
-// tampil awal
-
-hitungIqomah();
-
-
-
-// mulai timer
-
-iqomahTimer =
-setInterval(hitungIqomah,1000);
-
-
-
-}
-
-
-
-
-
-/* ================= SELESAI IQOMAH ================= */
-
+/* ================= SELESAI ================= */
 
 function finishIqomah(){
 
-
-
 modeIqomah = false;
-
-
-
-if(iqomahTimer){
-
-clearInterval(iqomahTimer);
-
-}
-
-
-
-
-// hilangkan overlay saja
-
-let overlay =
-document.getElementById('overlay');
-
-
-if(overlay){
-
-overlay.style.display = 'none';
-
-}
-
-
-
-
-// kosongkan teks
-
-document.getElementById('overlayTitle')
-.innerHTML = '';
-
-document.getElementById('overlaySub')
-.innerHTML = '';
-
-document.getElementById('overlayCount')
-.innerHTML = '';
-
-
-
-}
-
-  
 
 document.getElementById('overlay')
 .style.display = 'none';
