@@ -578,7 +578,6 @@ Mohon Tenang & Persiapkan Shalat
 
 </div>
 
-/* ================= ADMIN TOMBOL ================= */
 
 <div id="adminBtn">⚙ ADMIN</div>
 
@@ -1088,11 +1087,8 @@ duration = 480; // 8 menit
 
 }
 
-
-document.getElementById('overlayCount')
-.innerHTML =
-'10:00';
-
+document.getElementById('overlayCount').innerHTML =
+`${String(Math.floor(duration/60)).padStart(2,'0')}:00`;
 
 const interval = setInterval(()=>{
 
@@ -1278,13 +1274,12 @@ reconnectInternet();
 
 /* ================= SLIDESHOW ================= */
 
-
-const slides = [
-    "slide1.jpg",
-    "slide2.jpg",
-    "slide3.jpg",
-    "slide4.jpg",
-    "slide5.jpg"
+const files = [
+    { id:"slide1Input", name:"slide1.jpg" },
+    { id:"slide2Input", name:"slide2.jpg" },
+    { id:"slide3Input", name:"slide3.jpg" },
+    { id:"slide4Input", name:"slide4.jpg" },
+    { id:"slide5Input", name:"slide5.jpg" }
 ];
 
 let slideIndex = 0;
