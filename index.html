@@ -225,6 +225,62 @@ background:black;
 border:1px solid rgba(255,255,255,0.08);
 }
 
+.slide-container{
+width:100%;
+height:100%;
+position:relative;
+}
+
+.slide-image{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.slide-overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+
+padding-top:70px;
+padding-left:50px;
+padding-right:50px;
+
+text-align:center;
+}
+
+.slide-arabic{
+font-size:42px;
+font-weight:bold;
+color:#00cc66;
+line-height:1.8;
+margin-bottom:20px;
+text-shadow:2px 2px 8px rgba(0,0,0,.7);
+}
+
+.slide-text{
+font-size:30px;
+font-style:italic;
+font-weight:bold;
+color:#111;
+line-height:1.4;
+max-width:1000px;
+margin-bottom:15px;
+}
+
+.slide-source{
+font-size:24px;
+font-weight:bold;
+color:#111;
+}
+  
 /* ================= LIVE ================= */
 
 '.live{
@@ -478,23 +534,27 @@ JADWAL SHALAT
 
 <div class="right">
 
-'<div class="live">
+    <div class="slide-container">
 
-'</div>
+        <img
+        id="slideImage"
+        class="slide-image"
+        src="slide1.jpg">
 
-<video
-id="video"
-class="video-frame"
-autoplay
-muted
-loop
-playsinline>
+        <div class="slide-overlay">
 
-<source src="Gambar5.mp4" type="video/mp4">
+            <div id="slideArabic" class="slide-arabic"></div>
 
-</video>
+            <div id="slideText" class="slide-text"></div>
+
+            <div id="slideSource" class="slide-source"></div>
+
+        </div>
+
+    </div>
 
 </div>
+  
 
 </div>
 
@@ -652,38 +712,6 @@ autoFullscreen();
 }
 );
 
-/* ================= VIDEO ================= */
-
-const video =
-document.getElementById('video');
-
-async function startVideo(){
-
-try{
-
-video.muted = true;
-
-await video.play();
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-startVideo();
-
-video.setAttribute('webkit-playsinline','true');
-video.setAttribute('playsinline','true');
-
-document.addEventListener('click',()=>{
-
-video.play();
-autoFullscreen();
-
-});
 
 /* ================= SHALAT ================= */
 
@@ -893,7 +921,7 @@ function startAzan(){
 
 modeAzan = true;
 
-video.pause();
+//video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -944,7 +972,7 @@ function startAzanJumat(){
 
 modeAzan = true;
 
-video.pause();
+//video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -1078,7 +1106,7 @@ modeIqomah = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-video.play();
+//video.play();
 
 autoFullscreen();
 
@@ -1091,7 +1119,7 @@ modeAzan = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-video.play();
+//video.play();
 
 autoFullscreen();
 
@@ -1166,7 +1194,7 @@ await loadPrayer();
 
 await autoFullscreen();
 
-video.play();
+//video.play();
 
 }
 
@@ -1196,7 +1224,7 @@ await loadPrayer();
 
 await autoFullscreen();
 
-video.play();
+//video.play();
 
 });
 
@@ -1222,6 +1250,86 @@ reconnectInternet();
 
 },15000);
 
+/* ================= SLIDE KANAN ================= */
+
+const slides = [
+
+{
+gambar:"slide1.jpg",
+
+arab:
+"وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ",
+
+isi:
+"Dan mohonlah pertolongan kepada Allah dengan sabar dan shalat. Dan sesungguhnya yang demikian itu sungguh berat kecuali bagi orang-orang yang khusyuk.",
+
+sumber:
+"(Q.S Al Baqarah Ayat 45)"
+},
+
+{
+gambar:"slide2.jpg",
+
+arab:
+"وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ",
+
+isi:
+"Dan dirikanlah shalat, tunaikanlah zakat, dan rukuklah bersama orang-orang yang rukuk.",
+
+sumber:
+"(Q.S Al Baqarah Ayat 43)"
+},
+
+{
+gambar:"slide3.jpg",
+
+arab:"",
+
+isi:
+"KAJIAN RUTIN SETIAP SELASA BA'DA DZUHUR",
+
+sumber:
+"DKM MASJID AN NUR"
+}
+
+];
+
+let slideIndex = 0;
+
+function tampilkanSlide(){
+
+const data = slides[slideIndex];
+
+document.getElementById("slideImage").src =
+data.gambar;
+
+document.getElementById("slideArabic").innerHTML =
+data.arab;
+
+document.getElementById("slideText").innerHTML =
+data.isi;
+
+document.getElementById("slideSource").innerHTML =
+data.sumber;
+
+}
+
+function nextSlide(){
+
+slideIndex++;
+
+if(slideIndex >= slides.length){
+slideIndex = 0;
+}
+
+tampilkanSlide();
+
+}
+
+tampilkanSlide();
+
+setInterval(nextSlide,15000);
+  
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
