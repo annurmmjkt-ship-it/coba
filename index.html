@@ -8,11 +8,13 @@
 
 <style>
 
-#slideShow{
-width:100%;
-height:100%;
-object-fit:cover;
-transition:opacity 1s ease;
+#slideShow {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ganti bagian ini: */
+    transition: opacity 1.5s ease-in-out; 
+    opacity: 1;
 }
 
 
@@ -590,11 +592,11 @@ Mohon Tenang & Persiapkan Shalat
 
 <br><br>
 
-<input type="file" id="slide1File" accept="image/*"><br><br>
-<input type="file" id="slide2File" accept="image/*"><br><br>
-<input type="file" id="slide3File" accept="image/*"><br><br>
-<input type="file" id="slide4File" accept="image/*"><br><br>
-<input type="file" id="slide5File" accept="image/*"><br><br>
+<input type="Slide 1" id="slide1File" accept="image/*"><br><br>
+<input type="Slide 2" id="slide2File" accept="image/*"><br><br>
+<input type="Slide 3" id="slide3File" accept="image/*"><br><br>
+<input type="Slide 4" id="slide4File" accept="image/*"><br><br>
+<input type="Slide 5" id="slide5File" accept="image/*"><br><br>
 
 <button onclick="saveToken()">SIMPAN TOKEN</button>
 
@@ -1275,49 +1277,45 @@ reconnectInternet();
 
 /* ================= SLIDESHOW ================= */
 
+
 const slides = [
-
-"Slide1.jpg",
-"Slide2.jpg",
-"Slide3.jpg",
-"Slide4.jpg",
-"Slide5.jpg"
-
+    "Slide1.jpg",
+    "Slide2.jpg",
+    "Slide3.jpg",
+    "Slide4.jpg",
+    "Slide5.jpg"
 ];
 
 let slideIndex = 0;
+const slideShow = document.getElementById("slideShow");
 
-const slideShow =
-document.getElementById("slideShow");
+function nextSlide() {
+    // 1. Buat gambar menghilang (fade out)
+    slideShow.style.opacity = 0;
 
-function nextSlide(){
+    // 2. Tunggu transisi selesai (1500ms = 1.5 detik)
+    setTimeout(() => {
+        slideIndex++;
+        if (slideIndex >= slides.length) {
+            slideIndex = 0;
+        }
 
-slideShow.style.opacity = 0;
+        // 3. Ganti sumber gambar saat gambar tidak terlihat
+        slideShow.src = slides[slideIndex];
 
-setTimeout(()=>{
-
-slideIndex++;
-
-if(slideIndex >= slides.length){
-
-slideIndex = 0;
-
+        // 4. Munculkan kembali (fade in)
+        slideShow.style.opacity = 1;
+    }, 1500); 
 }
 
-slideShow.src = slides[slideIndex];
+// Interval harus lebih lama dari durasi transisi (misal: 10 detik)
+setInterval(nextSlide, 10000);
 
-slideShow.style.opacity = 1;
-
-},500);
-
-}
-
-setInterval(nextSlide,10000);
 
 
 /* ===== ADMIN ===== */
 
-const ADMIN_PASSWORD = "annur123";
+const ADMIN_PASSWORD = "annur5455";
 
 document.getElementById("adminBtn").onclick = ()=>{
 
