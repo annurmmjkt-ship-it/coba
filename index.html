@@ -991,208 +991,54 @@ finishJumat();
 
 /* ================= IQOMAH ================= */
 
-let iqomahTimer = null;
-
-
 function startIqomah(){
-
 
 modeAzan = false;
 modeIqomah = true;
 
-
-// tampilkan overlay
-
-let overlay = document.getElementById('overlay');
-
-if(overlay){
-
-overlay.style.display = 'block';
-
-}
-
-
-
-
 document.getElementById('overlayTitle')
 .innerHTML = 'MENUJU IQOMAH';
-
-
 
 document.getElementById('overlaySub')
 .innerHTML =
 'Luruskan & Rapatkan Shaf';
 
-
-
-
-// =========================
-// DURASI IQOMAH
-// Maghrib & Isya = 8 menit
-// lainnya = 10 menit
-// =========================
+document.getElementById('overlayCount')
+.innerHTML = '10:00';
 
 let duration = 600;
 
+const interval = setInterval(()=>{
 
+const menit =
+String(Math.floor(duration/60)).padStart(2,'0');
 
-if(
-currentPrayer === 'Maghrib' ||
-currentPrayer === 'Isya'
-){
-
-duration = 480;
-
-}
-
-
-
-
-
-// hapus timer lama
-
-if(iqomahTimer){
-
-clearInterval(iqomahTimer);
-
-}
-
-
-
-
-
-function updateIqomah(){
-
-
-let menit =
-String(Math.floor(duration / 60))
-.padStart(2,'0');
-
-
-let detik =
-String(duration % 60)
-.padStart(2,'0');
-
-
+const detik =
+String(duration%60).padStart(2,'0');
 
 document.getElementById('overlayCount')
 .innerHTML =
 `${menit}:${detik}`;
 
+duration--;
 
+if(duration < 0){
 
-
-
-// selesai
-
-if(duration <= 0){
-
-
-clearInterval(iqomahTimer);
-
-
+clearInterval(interval);
 
 finishIqomah();
 
+}
 
-
-return;
+},1000);
 
 }
 
-
-
-duration--;
-
-
-
-}
-
-
-
-
-// tampil pertama
-
-updateIqomah();
-
-
-// mulai hitung
-
-iqomahTimer =
-setInterval(updateIqomah,1000);
-
-
-
-}
-
-
-
-
-/* ================= SELESAI IQOMAH ================= */
-
+/* ================= SELESAI ================= */
 
 function finishIqomah(){
 
-
 modeIqomah = false;
-
-
-
-if(iqomahTimer){
-
-clearInterval(iqomahTimer);
-
-}
-
-
-
-// sembunyikan overlay
-
-let overlay =
-document.getElementById('overlay');
-
-
-if(overlay){
-
-overlay.style.display = 'none';
-
-}
-
-
-
-// bersihkan isi
-
-document.getElementById('overlayTitle')
-.innerHTML='';
-
-
-document.getElementById('overlaySub')
-.innerHTML='';
-
-
-document.getElementById('overlayCount')
-.innerHTML='';
-
-
-
-// jalankan update kembali
-
-if(typeof updateClock === "function"){
-
-updateClock();
-
-}
-
-
-if(typeof updateSchedule === "function"){
-
-updateSchedule();
-
-}
-
-
-}
-  
 
 document.getElementById('overlay')
 .style.display = 'none';
