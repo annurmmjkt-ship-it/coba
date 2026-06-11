@@ -908,9 +908,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat';
 
 document.getElementById('overlayCount')
-.innerHTML = '00:20';
+.innerHTML = '00:10';
 
-let duration = 20;
+let duration = 10;
 
 const interval = setInterval(()=>{
 
@@ -999,10 +999,27 @@ modeAzan = false;
 modeIqomah = true;
 
 
-// hapus timer lama
-if(iqomahTimer){
-clearInterval(iqomahTimer);
+// tampilkan overlay
+
+let overlay = document.getElementById('overlay');
+
+if(overlay){
+
+overlay.style.display = 'block';
+overlay.style.visibility = 'visible';
+overlay.style.opacity = '1';
+
 }
+
+
+// hentikan timer lama
+
+if(iqomahTimer){
+
+clearInterval(iqomahTimer);
+
+}
+
 
 
 document.getElementById('overlayTitle')
@@ -1015,12 +1032,17 @@ document.getElementById('overlaySub')
 
 
 
-let duration = 600; // 10 menit
+// durasi default 10 menit
+
+let duration = 600;
 
 
 // khusus Maghrib & Isya 8 menit
 
-if(currentPrayer === 'Maghrib' || currentPrayer === 'Isya'){
+if(
+currentPrayer === 'Maghrib' ||
+currentPrayer === 'Isya'
+){
 
 duration = 480;
 
@@ -1028,7 +1050,7 @@ duration = 480;
 
 
 
-iqomahTimer = setInterval(()=>{
+function updateIqomah(){
 
 
 let menit =
@@ -1041,24 +1063,30 @@ String(duration % 60)
 .padStart(2,'0');
 
 
+
 document.getElementById('overlayCount')
 .innerHTML =
 `${menit}:${detik}`;
 
 
 
+// selesai
+
 if(duration <= 0){
+
 
 clearInterval(iqomahTimer);
 
 
-// hilangkan angka 00:00
+// kosongkan angka
+
 document.getElementById('overlayCount')
 .innerHTML = '';
 
 
 
 finishIqomah();
+
 
 return;
 
@@ -1068,16 +1096,45 @@ return;
 duration--;
 
 
-},1000);
+}
+
+
+
+// tampil awal
+
+updateIqomah();
+
+
+// mulai hitungan
+
+iqomahTimer =
+setInterval(updateIqomah,1000);
+
+
 
 }
 
+
+
+/* ================= SELESAI IQOMAH ================= */
+
+
 function finishIqomah(){
+
 
 modeIqomah = false;
 
 
-// hapus tampilan iqomah
+
+if(iqomahTimer){
+
+clearInterval(iqomahTimer);
+
+}
+
+
+
+// hapus teks
 
 document.getElementById('overlayTitle')
 .innerHTML = '';
@@ -1089,30 +1146,33 @@ document.getElementById('overlayCount')
 .innerHTML = '';
 
 
+
 // sembunyikan overlay
 
-document.getElementById('overlay')
-.style.display = 'none';
+let overlay =
+document.getElementById('overlay');
 
 
-}
- 
- 
-document.getElementById('overlay')
-.style.display = 'none';
+if(overlay){
 
-video.play();
+overlay.style.display = 'none';
 
-autoFullscreen();
+overlay.style.visibility = 'hidden';
+
+overlay.style.opacity = '0';
 
 }
 
-function finishJumat(){
+
+
+// kembali normal
 
 modeAzan = false;
+modeIqomah = false;
 
-document.getElementById('overlay')
-.style.display = 'none';
+
+}
+
 
 video.play();
 
