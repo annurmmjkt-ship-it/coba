@@ -6,59 +6,15 @@
 
 <title>MASJID DIGITAL TV</title>
 
-/* ================= Admin Panel ================= */  
-#adminBtn{
-position:fixed;
-top:10px;
-right:10px;
-z-index:999999;
-background:#ffd700;
-color:black;
-padding:10px 15px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-#adminPanel{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:450px;
-max-width:95%;
-background:#111;
-padding:20px;
-border-radius:15px;
-z-index:999999;
-border:2px solid gold;
-}
-
-#adminPanel h2{
-margin-bottom:15px;
-color:#ffd700;
-}
-
-#adminPanel label{
-display:block;
-margin-top:10px;
-margin-bottom:5px;
-}
-
-#adminPanel input{
-width:100%;
-margin-bottom:10px;
-}
-
-#adminPanel button{
-margin-top:10px;
-padding:10px 15px;
-cursor:pointer;
-}
-
-  
 <style>
+
+#slideShow{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:opacity 1s ease;
+}
+
 
 *{
 margin:0;
@@ -445,38 +401,6 @@ font-size:70px;
 </style>
 </head>
 
-<div id="adminBtn">⚙ ADMIN</div>
-
-<div id="adminPanel">
-
-<h2>UPLOAD SLIDE MASJID</h2>
-
-<label>Slide 1</label>
-<input type="file" id="slide1Input" accept="image/*">
-
-<label>Slide 2</label>
-<input type="file" id="slide2Input" accept="image/*">
-
-<label>Slide 3</label>
-<input type="file" id="slide3Input" accept="image/*">
-
-<label>Slide 4</label>
-<input type="file" id="slide4Input" accept="image/*">
-
-<label>Slide 5</label>
-<input type="file" id="slide5Input" accept="image/*">
-
-<button onclick="saveSlides()">
-SIMPAN
-</button>
-
-<button onclick="closeAdmin()">
-TUTUP
-</button>
-
-</div>
-
-  
 <body>
 
 <div class="bg"></div>
@@ -565,7 +489,7 @@ JADWAL SHALAT
 <img
 id="slideShow"
 class="video-frame"
-src=""
+src="slide1.jpg"
 alt="Slide">
 
 </div>
@@ -727,7 +651,38 @@ autoFullscreen();
 }
 );
 
+/* ================= VIDEO ================= */
 
+const video =
+document.getElementById('video');
+
+async function startVideo(){
+
+try{
+
+video.muted = true;
+
+await video.play();
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+startVideo();
+
+video.setAttribute('webkit-playsinline','true');
+video.setAttribute('playsinline','true');
+
+document.addEventListener('click',()=>{
+
+video.play();
+autoFullscreen();
+
+});
 
 /* ================= SHALAT ================= */
 
@@ -937,7 +892,7 @@ function startAzan(){
 
 modeAzan = true;
 
-// slideshow tetap berjalan
+video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -988,7 +943,7 @@ function startAzanJumat(){
 
 modeAzan = true;
 
-// slideshow tetap berjalan
+video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -1122,7 +1077,7 @@ modeIqomah = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-// slideshow tidak perlu play
+video.play();
 
 autoFullscreen();
 
@@ -1135,7 +1090,7 @@ modeAzan = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-// slideshow tidak perlu play
+video.play();
 
 autoFullscreen();
 
@@ -1210,7 +1165,7 @@ await loadPrayer();
 
 await autoFullscreen();
 
-// slideshow tidak perlu play
+video.play();
 
 }
 
@@ -1240,7 +1195,7 @@ await loadPrayer();
 
 await autoFullscreen();
 
-// slideshow tidak perlu play
+video.play();
 
 });
 
@@ -1266,134 +1221,53 @@ reconnectInternet();
 
 },15000);
 
-/* ================= LOOP ================= */
-
-setInterval(checkPrayerTime,1000);
-
-  
-/* ================= ADMIN ================= */
-
-const adminBtn =
-document.getElementById("adminBtn");
-
-const adminPanel =
-document.getElementById("adminPanel");
-
-adminBtn.onclick = ()=>{
-
-const password =
-prompt("Masukkan Password");
-
-if(password==="123456"){
-adminPanel.style.display="block";
-}
-
-};
-
-function closeAdmin(){
-
-adminPanel.style.display="none";
-
-}
-
-/* ================= SAVE IMAGE ================= */
-
-function saveImage(inputId,key){
-
-const file =
-document.getElementById(inputId).files[0];
-
-if(!file) return;
-
-const reader =
-new FileReader();
-
-reader.onload=function(e){
-
-localStorage.setItem(
-key,
-e.target.result
-);
-
-};
-
-reader.readAsDataURL(file);
-
-}
-
-function saveSlides(){
-
-saveImage("slide1Input","slide1");
-saveImage("slide2Input","slide2");
-saveImage("slide3Input","slide3");
-saveImage("slide4Input","slide4");
-saveImage("slide5Input","slide5");
-
-setTimeout(()=>{
-
-loadSlides();
-
-alert("Slide berhasil disimpan");
-
-},1000);
-
-}
-
 /* ================= SLIDESHOW ================= */
 
-let slides=[];
+const slides = [
 
-function loadSlides(){
+"slide1.jpg",
+"slide2.jpg",
+"slide3.jpg",
+"slide4.jpg",
+"slide5.jpg"
 
-slides=[
+];
 
-localStorage.getItem("slide1"),
-localStorage.getItem("slide2"),
-localStorage.getItem("slide3"),
-localStorage.getItem("slide4"),
-localStorage.getItem("slide5")
-
-].filter(item=>item);
-
-}
-
-loadSlides();
+let slideIndex = 0;
 
 const slideShow =
 document.getElementById("slideShow");
 
-let slideIndex=0;
-
 function nextSlide(){
 
-if(slides.length===0) return;
-
-slideShow.style.opacity=0;
+slideShow.style.opacity = 0;
 
 setTimeout(()=>{
 
-slideShow.src=
-slides[slideIndex];
-
-slideShow.style.opacity=1;
-
 slideIndex++;
 
-if(slideIndex>=slides.length){
+if(slideIndex >= slides.length){
 
-slideIndex=0;
+slideIndex = 0;
 
 }
+
+slideShow.src = slides[slideIndex];
+
+slideShow.style.opacity = 1;
 
 },500);
 
 }
 
-nextSlide();
-
 setInterval(nextSlide,10000);
 
-  
+
+
+/* ================= LOOP ================= */
+
+setInterval(checkPrayerTime,1000);
+
 </script>  
 
 </body>
