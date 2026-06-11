@@ -1072,12 +1072,31 @@ duration--;
 
 }
 
-
-/* ================= SELESAI ================= */
-
 function finishIqomah(){
 
 modeIqomah = false;
+
+
+// hapus tampilan iqomah
+
+document.getElementById('overlayTitle')
+.innerHTML = '';
+
+document.getElementById('overlaySub')
+.innerHTML = '';
+
+document.getElementById('overlayCount')
+.innerHTML = '';
+
+
+// sembunyikan overlay
+
+document.getElementById('overlay')
+.style.display = 'none';
+
+
+}
+ 
  
 document.getElementById('overlay')
 .style.display = 'none';
