@@ -1316,6 +1316,7 @@ function nextSlide() {
         }
 
         // 3. Ganti sumber gambar saat gambar tidak terlihat
+        slides = buildSlides();
         slideShow.src = slides[slideIndex];
 
         // 4. Munculkan kembali (fade in)
@@ -1375,6 +1376,12 @@ async function checkGithubUpdate(){
 
 }    
 
+setInterval(() => {
+
+    slides = buildSlides();
+
+}, 30000);
+    
 /* ===== ADMIN ===== */
 
 const ADMIN_PASSWORD = "annur5455";
