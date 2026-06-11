@@ -651,38 +651,7 @@ autoFullscreen();
 }
 );
 
-/* ================= VIDEO ================= */
 
-const video =
-document.getElementById('video');
-
-async function startVideo(){
-
-try{
-
-video.muted = true;
-
-await video.play();
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-startVideo();
-
-video.setAttribute('webkit-playsinline','true');
-video.setAttribute('playsinline','true');
-
-document.addEventListener('click',()=>{
-
-video.play();
-autoFullscreen();
-
-});
 
 /* ================= SHALAT ================= */
 
@@ -892,7 +861,6 @@ function startAzan(){
 
 modeAzan = true;
 
-video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -943,7 +911,6 @@ function startAzanJumat(){
 
 modeAzan = true;
 
-video.pause();
 
 const overlay =
 document.getElementById('overlay');
@@ -1077,7 +1044,6 @@ modeIqomah = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-video.play();
 
 autoFullscreen();
 
@@ -1090,7 +1056,7 @@ modeAzan = false;
 document.getElementById('overlay')
 .style.display = 'none';
 
-video.play();
+
 
 autoFullscreen();
 
@@ -1165,7 +1131,6 @@ await loadPrayer();
 
 await autoFullscreen();
 
-video.play();
 
 }
 
@@ -1195,7 +1160,6 @@ await loadPrayer();
 
 await autoFullscreen();
 
-video.play();
 
 });
 
