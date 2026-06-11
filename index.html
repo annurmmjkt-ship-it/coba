@@ -908,9 +908,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat';
 
 document.getElementById('overlayCount')
-.innerHTML = '00:10';
+.innerHTML = '00:12';
 
-let duration = 10;
+let duration = 12;
 
 const interval = setInterval(()=>{
 
@@ -993,37 +993,33 @@ finishJumat();
 
 let iqomahTimer = null;
 
+
 function startIqomah(){
+
 
 modeAzan = false;
 modeIqomah = true;
 
 
+
 // tampilkan overlay
 
-let overlay = document.getElementById('overlay');
+let overlay =
+document.getElementById('overlay');
+
 
 if(overlay){
 
 overlay.style.display = 'block';
-overlay.style.visibility = 'visible';
-overlay.style.opacity = '1';
 
 }
 
-
-// hentikan timer lama
-
-if(iqomahTimer){
-
-clearInterval(iqomahTimer);
-
-}
 
 
 
 document.getElementById('overlayTitle')
 .innerHTML = 'MENUJU IQOMAH';
+
 
 
 document.getElementById('overlaySub')
@@ -1032,12 +1028,15 @@ document.getElementById('overlaySub')
 
 
 
-// durasi default 10 menit
+
+// default 10 menit
 
 let duration = 600;
 
 
-// khusus Maghrib & Isya 8 menit
+
+
+// Maghrib & Isya = 8 menit
 
 if(
 currentPrayer === 'Maghrib' ||
@@ -1050,12 +1049,26 @@ duration = 480;
 
 
 
-function updateIqomah(){
+
+// hapus timer lama
+
+if(iqomahTimer){
+
+clearInterval(iqomahTimer);
+
+}
+
+
+
+
+function hitungIqomah(){
+
 
 
 let menit =
 String(Math.floor(duration / 60))
 .padStart(2,'0');
+
 
 
 let detik =
@@ -1064,9 +1077,12 @@ String(duration % 60)
 
 
 
+
 document.getElementById('overlayCount')
 .innerHTML =
 `${menit}:${detik}`;
+
+
 
 
 
@@ -1078,7 +1094,6 @@ if(duration <= 0){
 clearInterval(iqomahTimer);
 
 
-// kosongkan angka
 
 document.getElementById('overlayCount')
 .innerHTML = '';
@@ -1088,31 +1103,38 @@ document.getElementById('overlayCount')
 finishIqomah();
 
 
+
 return;
 
 }
 
 
+
 duration--;
 
 
+
 }
+
 
 
 
 // tampil awal
 
-updateIqomah();
+hitungIqomah();
 
 
-// mulai hitungan
+
+// mulai timer
 
 iqomahTimer =
-setInterval(updateIqomah,1000);
+setInterval(hitungIqomah,1000);
 
 
 
 }
+
+
 
 
 
@@ -1120,6 +1142,7 @@ setInterval(updateIqomah,1000);
 
 
 function finishIqomah(){
+
 
 
 modeIqomah = false;
@@ -1134,7 +1157,23 @@ clearInterval(iqomahTimer);
 
 
 
-// hapus teks
+
+// hilangkan overlay saja
+
+let overlay =
+document.getElementById('overlay');
+
+
+if(overlay){
+
+overlay.style.display = 'none';
+
+}
+
+
+
+
+// kosongkan teks
 
 document.getElementById('overlayTitle')
 .innerHTML = '';
@@ -1147,32 +1186,25 @@ document.getElementById('overlayCount')
 
 
 
-// sembunyikan overlay
+}
 
-let overlay =
-document.getElementById('overlay');
+  
 
+document.getElementById('overlay')
+.style.display = 'none';
 
-if(overlay){
+video.play();
 
-overlay.style.display = 'none';
-
-overlay.style.visibility = 'hidden';
-
-overlay.style.opacity = '0';
+autoFullscreen();
 
 }
 
-
-
-// kembali normal
+function finishJumat(){
 
 modeAzan = false;
-modeIqomah = false;
 
-
-}
-
+document.getElementById('overlay')
+.style.display = 'none';
 
 video.play();
 
