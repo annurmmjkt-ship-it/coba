@@ -908,9 +908,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat';
 
 document.getElementById('overlayCount')
-.innerHTML = '00:12';
+.innerHTML = '05:00';
 
-let duration = 12;
+let duration = 300;
 
 const interval = setInterval(()=>{
 
@@ -1001,12 +1001,9 @@ modeAzan = false;
 modeIqomah = true;
 
 
-
 // tampilkan overlay
 
-let overlay =
-document.getElementById('overlay');
-
+let overlay = document.getElementById('overlay');
 
 if(overlay){
 
@@ -1029,14 +1026,15 @@ document.getElementById('overlaySub')
 
 
 
-// default 10 menit
+// =========================
+// DURASI IQOMAH
+// Maghrib & Isya = 8 menit
+// lainnya = 10 menit
+// =========================
 
 let duration = 600;
 
 
-
-
-// Maghrib & Isya = 8 menit
 
 if(
 currentPrayer === 'Maghrib' ||
@@ -1046,6 +1044,7 @@ currentPrayer === 'Isya'
 duration = 480;
 
 }
+
 
 
 
@@ -1061,8 +1060,8 @@ clearInterval(iqomahTimer);
 
 
 
-function hitungIqomah(){
 
+function updateIqomah(){
 
 
 let menit =
@@ -1070,11 +1069,9 @@ String(Math.floor(duration / 60))
 .padStart(2,'0');
 
 
-
 let detik =
 String(duration % 60)
 .padStart(2,'0');
-
 
 
 
@@ -1092,11 +1089,6 @@ if(duration <= 0){
 
 
 clearInterval(iqomahTimer);
-
-
-
-document.getElementById('overlayCount')
-.innerHTML = '';
 
 
 
@@ -1119,16 +1111,15 @@ duration--;
 
 
 
-// tampil awal
+// tampil pertama
 
-hitungIqomah();
+updateIqomah();
 
 
-
-// mulai timer
+// mulai hitung
 
 iqomahTimer =
-setInterval(hitungIqomah,1000);
+setInterval(updateIqomah,1000);
 
 
 
@@ -1137,12 +1128,10 @@ setInterval(hitungIqomah,1000);
 
 
 
-
 /* ================= SELESAI IQOMAH ================= */
 
 
 function finishIqomah(){
-
 
 
 modeIqomah = false;
@@ -1157,8 +1146,7 @@ clearInterval(iqomahTimer);
 
 
 
-
-// hilangkan overlay saja
+// sembunyikan overlay
 
 let overlay =
 document.getElementById('overlay');
@@ -1172,25 +1160,39 @@ overlay.style.display = 'none';
 
 
 
-
-// kosongkan teks
+// bersihkan isi
 
 document.getElementById('overlayTitle')
-.innerHTML = '';
+.innerHTML='';
+
 
 document.getElementById('overlaySub')
-.innerHTML = '';
+.innerHTML='';
+
 
 document.getElementById('overlayCount')
-.innerHTML = '';
+.innerHTML='';
 
 
+
+// jalankan update kembali
+
+if(typeof updateClock === "function"){
+
+updateClock();
 
 }
 
 
-  
+if(typeof updateSchedule === "function"){
 
+updateSchedule();
+
+}
+
+
+}
+  
 
 document.getElementById('overlay')
 .style.display = 'none';
