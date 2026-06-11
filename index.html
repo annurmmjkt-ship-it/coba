@@ -1274,17 +1274,36 @@ reconnectInternet();
 
 /* ================= SLIDESHOW ================= */
 
-const slides = [
-    "slide1.jpg",
-    "slide2.jpg",
-    "slide3.jpg",
-    "slide4.jpg",
-    "slide5.jpg"
-];
+let lastCommitSha = "";    
 
+function buildSlides(){
+
+    const v = Date.now();
+
+    return [
+        `slide1.jpg?v=${v}`,
+        `slide2.jpg?v=${v}`,
+        `slide3.jpg?v=${v}`,
+        `slide4.jpg?v=${v}`,
+        `slide5.jpg?v=${v}`
+    ];
+
+}
+
+let slides = buildSlides();
+    
 let slideIndex = 0;
 const slideShow = document.getElementById("slideShow");
+function refreshSlides(){
 
+    slides = buildSlides();
+
+    slideShow.src = slides[slideIndex];
+
+    console.log("Slide diperbarui dari GitHub");
+
+}
+    
 function nextSlide() {
     // 1. Buat gambar menghilang (fade out)
     slideShow.style.opacity = 0;
@@ -1305,9 +1324,56 @@ function nextSlide() {
 }
 
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
+
 setInterval(nextSlide, 10000);
+checkGithubUpdate();
 
+setInterval(() => {
 
+    checkGithubUpdate();
+
+}, 30000);
+    
+setInterval(() => {
+
+    slides = getSlides();
+
+}, 30000);
+
+async function checkGithubUpdate(){
+
+    try{
+
+        const response = await fetch(
+            "https://api.github.com/repos/annurmmjkt-ship-it/coba/commits/main"
+        );
+
+        const data = await response.json();
+
+        const latestSha = data.sha;
+
+        if(lastCommitSha === ""){
+
+            lastCommitSha = latestSha;
+            return;
+
+        }
+
+        if(latestSha !== lastCommitSha){
+
+            lastCommitSha = latestSha;
+
+            refreshSlides();
+
+        }
+
+    }catch(err){
+
+        console.log("Gagal cek GitHub",err);
+
+    }
+
+}    
 
 /* ===== ADMIN ===== */
 
@@ -1461,6 +1527,11 @@ document.getElementById("uploadStatus")
 .innerHTML =
 "✅ Upload selesai";
 
+localStorage.setItem(
+    "slide_last_update",
+    Date.now()
+);
+    
 setTimeout(()=>{
 
 location.reload();
@@ -1493,7 +1564,12 @@ reader.readAsDataURL(file);
 
 }
 
+setInterval(()=>{
 
+    location.reload();
+
+},300000);
+    
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
