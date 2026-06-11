@@ -398,6 +398,59 @@ font-size:70px;
 
 }
 
+
+#adminBtn{
+position:fixed;
+top:10px;
+right:10px;
+z-index:999999;
+background:#ffd700;
+color:#000;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#adminPanel{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#111;
+padding:20px;
+border-radius:15px;
+width:550px;
+max-width:95%;
+z-index:999999;
+border:2px solid #ffd700;
+}
+
+#adminPanel h2{
+color:#ffd700;
+margin-bottom:15px;
+}
+
+#adminPanel input{
+width:100%;
+margin-bottom:10px;
+padding:8px;
+}
+
+#adminPanel button{
+padding:10px 15px;
+margin-right:5px;
+cursor:pointer;
+}
+
+#uploadStatus{
+margin-top:15px;
+color:#00ff99;
+font-weight:bold;
+}
+
+
 </style>
 </head>
 
@@ -522,6 +575,41 @@ Mohon Tenang & Persiapkan Shalat
 </div>
 
 </div>
+
+/* ================= ADMIN TOMBOL ================= */
+
+<div id="adminBtn">⚙ ADMIN</div>
+
+<div id="adminPanel">
+
+<h2>ADMIN UPLOAD SLIDE</h2>
+
+<input type="password" id="adminPass" placeholder="Password Admin">
+
+<input type="password" id="githubToken" placeholder="GitHub Token">
+
+<br><br>
+
+<input type="file" id="slide1File" accept="image/*"><br><br>
+<input type="file" id="slide2File" accept="image/*"><br><br>
+<input type="file" id="slide3File" accept="image/*"><br><br>
+<input type="file" id="slide4File" accept="image/*"><br><br>
+<input type="file" id="slide5File" accept="image/*"><br><br>
+
+<button onclick="saveToken()">SIMPAN TOKEN</button>
+
+<button onclick="uploadSlides()">
+UPLOAD KE GITHUB
+</button>
+
+<button onclick="closeAdmin()">
+TUTUP
+</button>
+
+<div id="uploadStatus"></div>
+
+</div>
+
 
 <script>
 
@@ -1226,6 +1314,189 @@ slideShow.style.opacity = 1;
 
 setInterval(nextSlide,10000);
 
+
+/* ===== ADMIN ===== */
+
+const ADMIN_PASSWORD = "annur123";
+
+document.getElementById("adminBtn").onclick = ()=>{
+
+document.getElementById("adminPanel").style.display="block";
+
+const savedToken =
+localStorage.getItem("github_token");
+
+if(savedToken){
+document.getElementById("githubToken").value =
+savedToken;
+}
+
+};
+
+function closeAdmin(){
+document.getElementById("adminPanel").style.display="none";
+}
+
+function saveToken(){
+
+const token =
+document.getElementById("githubToken").value;
+
+localStorage.setItem(
+"github_token",
+token
+);
+
+alert("Token tersimpan");
+}
+
+async function uploadSlides(){
+
+const pass =
+document.getElementById("adminPass").value;
+
+if(pass !== ADMIN_PASSWORD){
+
+alert("Password salah");
+
+return;
+
+}
+
+const token =
+localStorage.getItem("github_token");
+
+if(!token){
+
+alert("Token belum disimpan");
+
+return;
+
+}
+
+const files = [
+
+{
+id:"slide1File",
+name:"Slide1.jpg"
+},
+{
+id:"slide2File",
+name:"Slide2.jpg"
+},
+{
+id:"slide3File",
+name:"Slide3.jpg"
+},
+{
+id:"slide4File",
+name:"Slide4.jpg"
+},
+{
+id:"slide5File",
+name:"Slide5.jpg"
+}
+
+];
+
+for(const item of files){
+
+const file =
+document.getElementById(item.id).files[0];
+
+if(!file) continue;
+
+document.getElementById("uploadStatus")
+.innerHTML =
+"Upload " + item.name + "...";
+
+const content =
+await fileToBase64(file);
+
+let sha = null;
+
+try{
+
+const oldFile =
+await fetch(
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
+{
+headers:{
+Authorization:`Bearer ${token}`
+}
+}
+);
+
+if(oldFile.ok){
+
+const oldData =
+await oldFile.json();
+
+sha = oldData.sha;
+
+}
+
+}catch(e){}
+
+await fetch(
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
+{
+method:"PUT",
+headers:{
+Authorization:`Bearer ${token}`,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+message:`Update ${item.name}`,
+
+content:content,
+
+branch:"main",
+
+sha:sha
+
+})
+}
+);
+
+}
+
+document.getElementById("uploadStatus")
+.innerHTML =
+"✅ Upload selesai";
+
+setTimeout(()=>{
+
+location.reload();
+
+},2000);
+
+}
+
+
+function fileToBase64(file){
+
+return new Promise((resolve,reject)=>{
+
+const reader =
+new FileReader();
+
+reader.onload = ()=>{
+
+resolve(
+reader.result.split(",")[1]
+);
+
+};
+
+reader.onerror = reject;
+
+reader.readAsDataURL(file);
+
+});
+
+}
 
 
 /* ================= LOOP ================= */
