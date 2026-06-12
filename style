@@ -452,6 +452,40 @@ color:#00ff99;
 font-weight:bold;
 }
 
+.upload-row{
+display:flex;
+align-items:center;
+gap:15px;
+margin:25px 0;
+}
+
+.upload-row label:first-child{
+width:90px;
+color:#ffd700;
+font-size:22px;
+font-weight:bold;
+}
+
+.btn-upload{
+
+background:#ffd700;
+color:#000;
+padding:12px 18px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+
+}
+
+.btn-upload input{
+display:none;
+}
+
+.upload-row span{
+color:white;
+font-size:16px;
+}
+
 
 </style>
 </head>
@@ -597,6 +631,77 @@ Mohon Tenang & Persiapkan Shalat
 <input type="file" id="slide4Input"><br><br>
 <input type="file" id="slide5Input"><br><br>
 
+<div class="upload-row">
+
+<label>SLIDE 1</label>
+
+<label class="btn-upload">
+UPLOAD GAMBAR
+<input type="file" id="slide1Input" accept="image/*">
+</label>
+
+<span id="name1">Belum dipilih</span>
+
+</div>
+
+
+<div class="upload-row">
+
+<label>SLIDE 2</label>
+
+<label class="btn-upload">
+UPLOAD GAMBAR
+<input type="file" id="slide2Input" accept="image/*">
+</label>
+
+<span id="name2">Belum dipilih</span>
+
+</div>
+
+
+<div class="upload-row">
+
+<label>SLIDE 3</label>
+
+<label class="btn-upload">
+UPLOAD GAMBAR
+<input type="file" id="slide3Input" accept="image/*">
+</label>
+
+<span id="name3">Belum dipilih</span>
+
+</div>
+
+
+<div class="upload-row">
+
+<label>SLIDE 4</label>
+
+<label class="btn-upload">
+UPLOAD GAMBAR
+<input type="file" id="slide4Input" accept="image/*">
+</label>
+
+<span id="name4">Belum dipilih</span>
+
+</div>
+
+
+<div class="upload-row">
+
+<label>SLIDE 5</label>
+
+<label class="btn-upload">
+UPLOAD GAMBAR
+<input type="file" id="slide5Input" accept="image/*">
+</label>
+
+<span id="name5">Belum dipilih</span>
+
+</div>
+    
+
+    
 
 <button onclick="saveToken()">SIMPAN TOKEN</button>
 
@@ -1576,6 +1681,23 @@ setInterval(()=>{
     location.reload();
 
 },300000);
+
+for(let i=1;i<=5;i++){
+
+document.getElementById("slide"+i+"Input")
+.addEventListener("change",function(){
+
+if(this.files.length){
+
+document.getElementById("name"+i)
+.innerHTML=this.files[0].name;
+
+}
+
+});
+
+}
+
     
 /* ================= LOOP ================= */
 
