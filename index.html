@@ -852,21 +852,6 @@ autoFullscreen();
 }
 );
 
-/* ================= ANTI SCREEN SAVER ANDROID TV ================= */
-
-setInterval(()=>{
-
-// membuat aktivitas layar tetap aktif
-document.body.style.display = 'none';
-
-setTimeout(()=>{
-
-document.body.style.display = '';
-
-},100);
-
-},60000);
-   
 
 /* ================= SHALAT ================= */
 
@@ -1738,23 +1723,20 @@ document.getElementById("name"+i)
 }
 
 /* ================= SCREEN SAVER DIAGONAL ================= */
-
 let movePos = 0;
 
 function moveScreenSaver(){
 
-const main = document.querySelector('.main');
-
-if(!main) return;
+const page = document.body;
 
 
 const posisi = [
 
 "translate(0px,0px)",
-"translate(8px,5px)",
-"translate(-8px,8px)",
-"translate(10px,-6px)",
-"translate(-10px,-5px)"
+"translate(6px,4px)",
+"translate(-6px,6px)",
+"translate(6px,-4px)",
+"translate(-6px,-6px)"
 
 ];
 
@@ -1766,16 +1748,13 @@ movePos = 0;
 }
 
 
-main.style.transform = posisi[movePos];
+page.style.transform = posisi[movePos];
 
 }
 
 
 // bergerak setiap 10 menit
-setInterval(
-moveScreenSaver,
-600000
-);
+setInterval(moveScreenSaver,600000);
     
     
 /* ================= LOOP ================= */
