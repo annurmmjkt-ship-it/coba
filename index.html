@@ -20,39 +20,33 @@
 
 
 #slideShow{
-    opacity:1;
     z-index:2;
 }
 
 
 #nextSlide{
-    opacity:0;
-    transform:translateX(100%);
-    filter:blur(10px);
     z-index:3;
+    clip-path:inset(0 100% 0 0);
 }
 
 
-.slide-in{
-    animation:slideFade 2s ease forwards;
+.wipe-in{
+    animation:wipeEffect 5s ease-in-out forwards;
 }
 
 
-@keyframes slideFade{
+@keyframes wipeEffect{
 
 0%{
-opacity:0;
-transform:translateX(100%);
-filter:blur(10px);
+clip-path:inset(0 100% 0 0);
 }
 
 100%{
-opacity:1;
-transform:translateX(0);
-filter:blur(0);
+clip-path:inset(0 0 0 0);
 }
 
 }
+    
   
 
 *{
@@ -1458,53 +1452,32 @@ function refreshSlides(){
 
 function nextSlide(){
 
-let next = document.getElementById("nextSlide");
+let next=document.getElementById("nextSlide");
 
 
 slideIndex++;
 
 if(slideIndex >= slides.length){
-    slideIndex = 0;
+slideIndex=0;
 }
 
 
-next.src = buildSlides()[slideIndex];
+next.src=buildSlides()[slideIndex];
 
 
-// mulai dari kanan
-next.style.transition="none";
-next.style.transform="translateX(100%)";
-next.style.opacity=0;
-next.style.filter="blur(10px)";
+next.classList.remove("wipe-in");
+
+void next.offsetWidth;
 
 
-setTimeout(()=>{
-
-
-next.style.transition=
-"all 6s ease-in-out";
-
-
-next.style.transform="translateX(0)";
-next.style.opacity=1;
-next.style.filter="blur(0)";
-
-
-},50);
-
+next.classList.add("wipe-in");
 
 
 setTimeout(()=>{
 
+slideShow.src=next.src;
 
-slideShow.src = next.src;
-
-
-next.style.opacity=0;
-
-
-},6000);
-
+},2000);
 
 }
 
