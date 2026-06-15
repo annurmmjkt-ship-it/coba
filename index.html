@@ -13,7 +13,7 @@
     height: 100%;
     object-fit: cover;
     /* Ganti bagian ini: */
-    transition: opacity 0.5s ease-in-out; 
+    transition: opacity 2s ease-in-out; 
     opacity: 1;
 }
 
@@ -1445,7 +1445,7 @@ function nextSlide(){
             slideShow.style.opacity = 1;
 
 
-        },500);
+        },2000);
 
 
     };
@@ -1455,7 +1455,7 @@ function nextSlide(){
     
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
-setInterval(nextSlide, 8000);
+setInterval(nextSlide, 15000);
 checkGithubUpdate();
 
 setInterval(() => {
