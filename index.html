@@ -846,7 +846,21 @@ autoFullscreen();
 }
 );
 
+/* ================= ANTI SCREEN SAVER ANDROID TV ================= */
 
+setInterval(()=>{
+
+// membuat aktivitas layar tetap aktif
+document.body.style.display = 'none';
+
+setTimeout(()=>{
+
+document.body.style.display = '';
+
+},100);
+
+},60000);
+   
 
 /* ================= SHALAT ================= */
 
