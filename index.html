@@ -625,6 +625,7 @@ class="video-frame"
 src="slide1.jpg"
 alt="Slide">
 
+<img    
 id="nextSlide"
 class="video-frame"
 src="">    
@@ -1463,19 +1464,34 @@ let next = document.getElementById("nextSlide");
 slideIndex++;
 
 if(slideIndex >= slides.length){
-slideIndex=0;
+    slideIndex = 0;
 }
 
 
 next.src = buildSlides()[slideIndex];
 
 
-next.classList.remove("slide-in");
+// mulai dari kanan
+next.style.transition="none";
+next.style.transform="translateX(100%)";
+next.style.opacity=0;
+next.style.filter="blur(10px)";
 
-void next.offsetWidth;
+
+setTimeout(()=>{
 
 
-next.classList.add("slide-in");
+next.style.transition=
+"all 2s ease-in-out";
+
+
+next.style.transform="translateX(0)";
+next.style.opacity=1;
+next.style.filter="blur(0)";
+
+
+},50);
+
 
 
 setTimeout(()=>{
@@ -1484,17 +1500,14 @@ setTimeout(()=>{
 slideShow.src = next.src;
 
 
-next.classList.remove("slide-in");
-
 next.style.opacity=0;
 
 
 },2000);
 
+
 }
 
-    
- 
    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
