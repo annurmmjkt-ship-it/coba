@@ -19,43 +19,84 @@
     left:0;
 
 }
-    
-#slideShow,
+
+
+#slideShow{
+
+    z-index:2;
+
+}
+
+
 #nextSlide{
+
     z-index:3;
-    clip-path:inset(0 0 0 100%);
-    filter:blur(15px);
+    transform:translateX(100%);
+    filter:blur(12px);
+
 }
 
 
-.wipe-in{
-    animation:wipeEffect 5s ease-in-out forwards;
+.slide-transition{
+
+    animation:slideRightLeft 5s ease-in-out forwards;
+
 }
 
 
-@keyframes wipeEffect{
+@keyframes slideRightLeft{
+
 
 0%{
-    clip-path:inset(0 0 0 100%);
-    filter:blur(15px);
-    transform:scale(1.05);
+
+    transform:translateX(100%);
+    filter:blur(12px);
+
 }
 
 
-50%{
-    filter:blur(6px);
+40%{
+
+    filter:blur(5px);
+
 }
 
 
 100%{
-    clip-path:inset(0 0 0 0);
+
+    transform:translateX(0);
     filter:blur(0);
-    transform:scale(1);
+
 }
 
 }
     
- 
+.slide-old{
+
+animation:oldSlide 5s ease-in-out forwards;
+
+}
+
+
+@keyframes oldSlide{
+
+
+0%{
+
+transform:translateX(0);
+filter:blur(0);
+
+}
+
+
+100%{
+
+transform:translateX(-30%);
+filter:blur(8px);
+
+}
+
+}
 
 *{
 margin:0;
@@ -1473,26 +1514,39 @@ slideIndex=0;
 next.src=buildSlides()[slideIndex];
 
 
-next.classList.remove("wipe-in");
+// reset animasi
+next.classList.remove("slide-transition");
+slideShow.classList.remove("slide-old");
 
 void next.offsetWidth;
 
 
-next.classList.add("wipe-in");
+// mulai efek
+next.classList.add("slide-transition");
+slideShow.classList.add("slide-old");
 
 
 setTimeout(()=>{
 
-slideShow.src=next.src;
+
+slideShow.src = next.src;
+
+
+// reset posisi
+next.style.transform="translateX(100%)";
+
+slideShow.classList.remove("slide-old");
+
 
 },5000);
 
-}
 
+}
+    
    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
-setInterval(nextSlide, 10000);
+setInterval(nextSlide, 15000);
 checkGithubUpdate();
 
 setInterval(() => {
