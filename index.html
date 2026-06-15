@@ -13,7 +13,7 @@
     height: 100%;
     object-fit: cover;
     /* Ganti bagian ini: */
-    transition: opacity 1.5s ease-in-out; 
+    transition: opacity 0.5s ease-in-out; 
     opacity: 1;
 }
 
@@ -1429,29 +1429,48 @@ function refreshSlides(){
 
 }
     
-function nextSlide() {
-    // 1. Buat gambar menghilang (fade out)
-    slideShow.style.opacity = 0;
+function nextSlide(){
 
-    // 2. Tunggu transisi selesai (1500ms = 1.5 detik)
-    setTimeout(() => {
-        slideIndex++;
-        if (slideIndex >= slides.length) {
-            slideIndex = 0;
-        }
+    let nextIndex = slideIndex + 1;
 
-        // 3. Ganti sumber gambar saat gambar tidak terlihat
-        slides = buildSlides();
-        slideShow.src = slides[slideIndex];
+    if(nextIndex >= slides.length){
+        nextIndex = 0;
+    }
 
-        // 4. Munculkan kembali (fade in)
-        slideShow.style.opacity = 1;
-    }, 1500); 
+
+    const nextImg = new Image();
+
+    nextImg.src = slides[nextIndex];
+
+
+    nextImg.onload = ()=>{
+
+
+        slideShow.style.opacity = 0;
+
+
+        setTimeout(()=>{
+
+
+            slideIndex = nextIndex;
+
+            slideShow.src = nextImg.src;
+
+
+            slideShow.style.opacity = 1;
+
+
+        },500);
+
+
+    };
+
 }
 
+    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
-setInterval(nextSlide, 10000);
+setInterval(nextSlide, 8000);
 checkGithubUpdate();
 
 setInterval(() => {
