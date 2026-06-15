@@ -1413,46 +1413,41 @@ function refreshSlides(){
     console.log("Slide diperbarui dari GitHub");
 
 }
-    
+
 function nextSlide(){
 
-    let nextIndex = slideIndex + 1;
-
-    if(nextIndex >= slides.length){
-        nextIndex = 0;
-    }
+slideShow.style.opacity = 0;
+slideShow.style.transform = "translateX(-100%)";
 
 
-    const nextImg = new Image();
+setTimeout(()=>{
 
-    nextImg.src = slides[nextIndex];
+slideIndex++;
 
-
-    nextImg.onload = ()=>{
-
-
-        slideShow.style.opacity = 0;
+if(slideIndex >= slides.length){
+slideIndex = 0;
+}
 
 
-        setTimeout(()=>{
+slideShow.src = buildSlides()[slideIndex];
+
+slideShow.style.transform = "translateX(100%)";
 
 
-            slideIndex = nextIndex;
+setTimeout(()=>{
 
-            slideShow.src = nextImg.src;
+slideShow.style.opacity = 1;
+slideShow.style.transform = "translateX(0)";
 
-
-            slideShow.style.opacity = 1;
-
-
-        },2000);
+},50);
 
 
-    };
+},2000);
 
 }
 
     
+   
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
 setInterval(nextSlide, 15000);
