@@ -1416,37 +1416,46 @@ function refreshSlides(){
 
 function nextSlide(){
 
-slideShow.style.opacity = 0;
-slideShow.style.transform = "translateX(-100%)";
+    // geser gambar lama ke kiri
+    slideShow.style.transform = "translateX(-100%)";
 
 
-setTimeout(()=>{
+    setTimeout(()=>{
 
-slideIndex++;
+        slideIndex++;
 
-if(slideIndex >= slides.length){
-slideIndex = 0;
-}
-
-
-slideShow.src = buildSlides()[slideIndex];
-
-slideShow.style.transform = "translateX(100%)";
+        if(slideIndex >= slides.length){
+            slideIndex = 0;
+        }
 
 
-setTimeout(()=>{
-
-slideShow.style.opacity = 1;
-slideShow.style.transform = "translateX(0)";
-
-},50);
+        slideShow.src = buildSlides()[slideIndex];
 
 
-},2000);
+        // mulai dari kanan
+        slideShow.style.transition = "none";
+        slideShow.style.transform = "translateX(100%)";
+
+
+        setTimeout(()=>{
+
+            // aktifkan animasi
+            slideShow.style.transition =
+            "transform 1.5s ease-in-out";
+
+            // masuk ke posisi normal
+            slideShow.style.transform =
+            "translateX(0)";
+
+        },50);
+
+
+    },1500);
 
 }
 
     
+   
    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
