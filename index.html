@@ -17,6 +17,7 @@ object-fit:cover;
 position:absolute;
 top:0;
 left:0;
+
 }
 
 
@@ -34,12 +35,10 @@ z-index:3;
 opacity:0;
 filter:blur(15px);
 
-clip-path:inset(0 0 0 100%);
-
 }
 
 
-/* SLIDE BARU MUNCUL KANAN KE KIRI */
+/* SLIDE BARU */
 
 .slide-transition{
 
@@ -50,21 +49,19 @@ animation:newSlide 5s ease-in-out forwards;
 
 @keyframes newSlide{
 
+
 0%{
 
 opacity:0;
 filter:blur(15px);
-clip-path:inset(0 0 0 100%);
 
 }
 
 
-50%{
+40%{
 
-opacity:0.7;
-filter:blur(5px);
-
-clip-path:inset(0 0 0 40%);
+opacity:0.4;
+filter:blur(8px);
 
 }
 
@@ -74,14 +71,13 @@ clip-path:inset(0 0 0 40%);
 opacity:1;
 filter:blur(0);
 
-clip-path:inset(0 0 0 0%);
-
 }
 
 }
 
 
-/* SLIDE LAMA HILANG */
+
+/* SLIDE LAMA */
 
 .slide-old{
 
@@ -118,6 +114,7 @@ filter:blur(15px);
 
 }
     
+
 
 *{
 margin:0;
@@ -923,6 +920,7 @@ autoFullscreen();
 
 },5000);
 
+
 /* ================= WAKE LOCK ================= */
 
 let wakeLock = null;
@@ -936,6 +934,17 @@ if('wakeLock' in navigator){
 wakeLock =
 await navigator.wakeLock.request('screen');
 
+
+wakeLock.addEventListener(
+'release',
+()=>{
+
+console.log("Wake Lock aktif ulang");
+
+enableWakeLock();
+
+});
+
 }
 
 }catch(err){
@@ -946,18 +955,56 @@ console.log(err);
 
 }
 
+
 enableWakeLock();
+
 
 document.addEventListener(
 'visibilitychange',
 ()=>{
-if(document.visibilityState === 'visible'){
+
+if(document.visibilityState === "visible"){
+
 enableWakeLock();
-autoFullscreen();
+
 }
+
+});
+
+/* ================= ANTI SCREEN SAVER LG TV ================= */
+
+function preventScreenSaver(){
+
+document.dispatchEvent(
+new MouseEvent(
+'mousemove',
+{
+bubbles:true,
+clientX:10,
+clientY:10
 }
+)
 );
 
+
+document.dispatchEvent(
+new Event(
+'touchstart',
+{
+bubbles:true
+}
+)
+);
+
+}
+
+
+setInterval(
+preventScreenSaver,
+30000
+);
+
+    
 
 /* ================= SHALAT ================= */
 
