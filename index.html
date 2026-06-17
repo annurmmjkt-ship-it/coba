@@ -1474,7 +1474,7 @@ reconnecting = false;
 
 hideOfflineStatus();
 
-await loadPrayer();
+ loadPrayer();
 
 await autoFullscreen();
 
@@ -1554,16 +1554,39 @@ let slides = buildSlides();
     
 let slideIndex = 0;
 const slideShow = document.getElementById("slideShow");
+
 function refreshSlides(){
 
     slides = buildSlides();
 
-    slideShow.src = slides[slideIndex];
+    const next =
+    document.getElementById("nextSlide");
 
-    console.log("Slide diperbarui dari GitHub");
+    next.src = slides[slideIndex];
+
+    next.classList.remove("slide-transition");
+    slideShow.classList.remove("slide-old");
+
+    void next.offsetWidth;
+
+    next.classList.add("slide-transition");
+    slideShow.classList.add("slide-old");
+
+    setTimeout(()=>{
+
+        slideShow.src = next.src;
+
+        next.classList.remove("slide-transition");
+        slideShow.classList.remove("slide-old");
+
+    },5000);
 
 }
 
+
+    
+
+    
 function nextSlide(){
 
 let next=document.getElementById("nextSlide");
@@ -1619,7 +1642,7 @@ setInterval(() => {
     
 setInterval(() => {
 
-    slides = getSlides();
+    slides = buildSlides();
 
 }, 30000);
 
@@ -1628,12 +1651,13 @@ async function checkGithubUpdate(){
     try{
 
         const response = await fetch(
-            "https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/commits/main"
-        );
 
+        https://api.github.com/repos/annurmmjkt-ship-it/coba/commits?per_page=1
+
+        
         const data = await response.json();
 
-        const latestSha = data.sha;
+        const latestSha = data[0].sha;
 
         if(lastCommitSha === ""){
 
@@ -1769,7 +1793,7 @@ try{
 
 const oldFile =
 await fetch(
-`https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/contents/${item.name}`,
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
 {
 headers:{
 Authorization:`Bearer ${token}`
@@ -1789,7 +1813,7 @@ sha = oldData.sha;
 }catch(e){}
 
 await fetch(
-`https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/contents/${item.name}`,
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
 {
 method:"PUT",
 headers:{
@@ -1816,6 +1840,10 @@ document.getElementById("uploadStatus")
 .innerHTML =
 "✅ Upload selesai";
 
+await new Promise(r => setTimeout(r, 10000));
+
+refreshSlides();
+    
 localStorage.setItem(
     "slide_last_update",
     Date.now()
