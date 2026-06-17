@@ -1942,19 +1942,7 @@ page.style.transform = posisi[movePos];
 // bergerak setiap 10 menit
 setInterval(moveScreenSaver,30000);
 
-/* ================= ANTI WEBOS SCREEN SAVER ================= */
-    
-let antiSaver = false;
 
-setInterval(()=>{
-
-antiSaver = !antiSaver;
-
-document.body.style.opacity =
-antiSaver ? "0.999" : "1";
-
-},20000);
-    
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
