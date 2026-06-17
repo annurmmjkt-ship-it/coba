@@ -1474,7 +1474,7 @@ reconnecting = false;
 
 hideOfflineStatus();
 
- loadPrayer();
+await loadPrayer();
 
 await autoFullscreen();
 
@@ -1554,39 +1554,16 @@ let slides = buildSlides();
     
 let slideIndex = 0;
 const slideShow = document.getElementById("slideShow");
-
 function refreshSlides(){
 
     slides = buildSlides();
 
-    const next =
-    document.getElementById("nextSlide");
+    slideShow.src = slides[slideIndex];
 
-    next.src = slides[slideIndex];
-
-    next.classList.remove("slide-transition");
-    slideShow.classList.remove("slide-old");
-
-    void next.offsetWidth;
-
-    next.classList.add("slide-transition");
-    slideShow.classList.add("slide-old");
-
-    setTimeout(()=>{
-
-        slideShow.src = next.src;
-
-        next.classList.remove("slide-transition");
-        slideShow.classList.remove("slide-old");
-
-    },5000);
+    console.log("Slide diperbarui dari GitHub");
 
 }
 
-
-    
-
-    
 function nextSlide(){
 
 let next=document.getElementById("nextSlide");
@@ -1642,7 +1619,7 @@ setInterval(() => {
     
 setInterval(() => {
 
-    slides = buildSlides();
+    slides = getSlides();
 
 }, 30000);
 
@@ -1651,13 +1628,12 @@ async function checkGithubUpdate(){
     try{
 
         const response = await fetch(
+            "https://api.github.com/repos/annurmmjkt-ship-it/coba/commits/main"
+        );
 
-        https://api.github.com/repos/annurmmjkt-ship-it/coba/commits?per_page=1
-
-        
         const data = await response.json();
 
-        const latestSha = data[0].sha;
+        const latestSha = data.sha;
 
         if(lastCommitSha === ""){
 
@@ -1840,10 +1816,6 @@ document.getElementById("uploadStatus")
 .innerHTML =
 "✅ Upload selesai";
 
-await new Promise(r => setTimeout(r, 10000));
-
-refreshSlides();
-    
 localStorage.setItem(
     "slide_last_update",
     Date.now()
@@ -1889,7 +1861,7 @@ if(!modeAzan && !modeIqomah){
 
 }
 
-},3600000);
+},300000);
     
 
 for(let i=1;i<=5;i++){
@@ -1918,12 +1890,12 @@ const page = document.body;
 
 const posisi = [
 
- "translate(0px,0px)",
-"translate(20px,15px)",
-"translate(-20px,15px)",
-"translate(20px,-15px)",
-"translate(-20px,-15px)"   
-    
+"translate(0px,0px)",
+"translate(6px,4px)",
+"translate(-6px,6px)",
+"translate(6px,-4px)",
+"translate(-6px,-6px)"
+
 ];
 
 
@@ -1940,9 +1912,9 @@ page.style.transform = posisi[movePos];
 
 
 // bergerak setiap 10 menit
-setInterval(moveScreenSaver,30000);
-
-
+setInterval(moveScreenSaver,600000);
+    
+    
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
