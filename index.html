@@ -131,6 +131,7 @@ color:white;
 touch-action:manipulation;
 }
 
+    
 /* ================= BACKGROUND ================= */
 
 .bg{
@@ -591,8 +592,20 @@ color:white;
 font-size:16px;
 }
 
+#cctvLayer{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:none;
+    z-index:50;
+    border:none;
+}
+    
 
 </style>
+    
 </head>
 
 <body>
@@ -690,6 +703,10 @@ alt="Slide">
 id="nextSlide"
 class="video-frame"
 src="">    
+
+<!-- CCTV BARU (TAMBAHAN SAJA) -->
+<iframe id="cctvLayer" class="video-frame"></iframe>
+
     
 </div>
 
@@ -824,6 +841,15 @@ TUTUP
 
 <script>
 
+let modeCCTV = false;
+
+const hikConnectURL = "https://www.hik-connect.com";    
+
+
+
+
+    
+    
 /* ================= JAM ================= */
 
 function updateClock(){
@@ -1319,7 +1345,9 @@ console.log("Mulai Iqomah:", namaShalat);
 
 modeAzan = false;
 modeIqomah = true;
-
+    
+startCCTV();
+    
 const overlay = document.getElementById('overlay');
 
 overlay.style.display = 'flex';    
@@ -1387,6 +1415,8 @@ finishIqomah();
 function finishIqomah(){
 
 modeIqomah = false;
+
+stopCCTV();    
 
 document.getElementById('overlay')
 .style.display = 'none';
@@ -1566,6 +1596,8 @@ function refreshSlides(){
 
 function nextSlide(){
 
+if(modeCCTV) return;
+    
 let next=document.getElementById("nextSlide");
 
 
@@ -1914,6 +1946,31 @@ page.style.transform = posisi[movePos];
 // bergerak setiap 10 menit
 setInterval(moveScreenSaver,600000);
     
+
+function startCCTV(){
+
+    modeCCTV = true;
+
+    // pause slide (TIDAK merusak logic lama)
+    document.getElementById("slideShow").style.opacity = 0;
+
+    // tampilkan CCTV
+    let cctv = document.getElementById("cctvLayer");
+    cctv.style.display = "block";
+    cctv.src = hikConnectURL;
+}
+
+function stopCCTV(){
+
+    modeCCTV = false;
+
+    let cctv = document.getElementById("cctvLayer");
+    cctv.style.display = "none";
+    cctv.src = "";
+
+    document.getElementById("slideShow").style.opacity = 1;
+}
+
     
 /* ================= LOOP ================= */
 
