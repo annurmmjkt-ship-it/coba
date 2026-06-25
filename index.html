@@ -704,6 +704,24 @@ id="nextSlide"
 class="video-frame"
 src="">    
 
+<video
+id="cctvPlayer"
+class="video-frame"
+autoplay
+muted
+playsinline
+style="
+display:none;
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:20;">
+</video>
+
+    
 <!-- CCTV BARU (TAMBAHAN SAJA) -->
 <iframe id="cctvLayer" class="video-frame"></iframe>
 
@@ -843,6 +861,17 @@ TUTUP
 
 let modeCCTV = false;
 
+let cctvTimer = null;
+
+/*
+Nanti di APK Android
+URL ini bisa RTSP / Hik-Connect
+*/
+
+const CCTV_URL =
+"https://contoh-stream-cctv";    
+
+    
 const hikConnectURL = "https://www.hik-connect.com";    
 
 
@@ -1345,9 +1374,7 @@ console.log("Mulai Iqomah:", namaShalat);
 
 modeAzan = false;
 modeIqomah = true;
-    
-startCCTV();
-    
+       
 const overlay = document.getElementById('overlay');
 
 overlay.style.display = 'flex';    
@@ -1416,11 +1443,20 @@ function finishIqomah(){
 
 modeIqomah = false;
 
-stopCCTV();    
-
 document.getElementById('overlay')
 .style.display = 'none';
 
+startCCTV();
+
+/* CCTV tampil 20 menit */
+
+clearTimeout(cctvTimer);
+
+cctvTimer = setTimeout(()=>{
+
+    stopCCTV();
+
+},1200000);
 
 autoFullscreen();
 
@@ -1945,33 +1981,57 @@ page.style.transform = posisi[movePos];
 
 // bergerak setiap 10 menit
 setInterval(moveScreenSaver,600000);
-    
 
 function startCCTV(){
 
+    if(modeCCTV) return;
+
     modeCCTV = true;
 
-    // pause slide (TIDAK merusak logic lama)
-    document.getElementById("slideShow").style.opacity = 0;
+    console.log("CCTV ON");
 
-    // tampilkan CCTV
-    let cctv = document.getElementById("cctvLayer");
+    document.getElementById("slideShow")
+    .style.display = "none";
+
+    document.getElementById("nextSlide")
+    .style.display = "none";
+
+    const cctv =
+    document.getElementById("cctvPlayer");
+
     cctv.style.display = "block";
-    cctv.src = hikConnectURL;
-}
 
+    cctv.src = CCTV_URL;
+
+    cctv.play()
+    .catch(err=>console.log(err));
+
+}
+    
 function stopCCTV(){
 
     modeCCTV = false;
 
-    let cctv = document.getElementById("cctvLayer");
-    cctv.style.display = "none";
+    console.log("CCTV OFF");
+
+    const cctv =
+    document.getElementById("cctvPlayer");
+
+    cctv.pause();
+
     cctv.src = "";
 
-    document.getElementById("slideShow").style.opacity = 1;
-}
+    cctv.style.display = "none";
 
+    document.getElementById("slideShow")
+    .style.display = "block";
+
+    document.getElementById("nextSlide")
+    .style.display = "block";
+
+}
     
+   
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
