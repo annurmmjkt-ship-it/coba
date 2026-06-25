@@ -720,11 +720,26 @@ height:100%;
 object-fit:cover;
 z-index:20;">
 </video>
+    
+<video
+id="cctvPlayer"
+class="video-frame"
+autoplay
+muted
+playsinline
+style="
+display:none;
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:20;">
+</video>
 
     
 <!-- CCTV BARU (TAMBAHAN SAJA) -->
-<iframe id="cctvLayer" class="video-frame"></iframe>
-
     
 </div>
 
@@ -863,16 +878,9 @@ let modeCCTV = false;
 
 let cctvTimer = null;
 
-/*
-Nanti di APK Android
-URL ini bisa RTSP / Hik-Connect
-*/
+const CCTV_CHANNEL = 7;
 
-const CCTV_URL =
-"https://contoh-stream-cctv";    
-
-    
-const hikConnectURL = "https://www.hik-connect.com";    
+const CCTV_DURATION = 20 * 60 * 1000;  
 
 
 
@@ -1441,39 +1449,25 @@ finishIqomah();
 
 function finishIqomah(){
 
-modeIqomah = false;
+    modeIqomah = false;
 
-document.getElementById('overlay')
-.style.display = 'none';
+    document.getElementById('overlay')
+    .style.display = 'none';
 
-startCCTV();
+    startCCTV();
 
-/* CCTV tampil 20 menit */
+    clearTimeout(cctvTimer);
 
-clearTimeout(cctvTimer);
+    cctvTimer = setTimeout(()=>{
 
-cctvTimer = setTimeout(()=>{
+        stopCCTV();
 
-    stopCCTV();
+    }, CCTV_DURATION);
 
-},1200000);
+    autoFullscreen();
 
-autoFullscreen();
+}    
 
-}
-
-function finishJumat(){
-
-modeAzan = false;
-
-document.getElementById('overlay')
-.style.display = 'none';
-
-
-
-autoFullscreen();
-
-}
 
 /* ================= AUTO CONNECT INTERNET ================= */
 
@@ -1996,15 +1990,14 @@ function startCCTV(){
     document.getElementById("nextSlide")
     .style.display = "none";
 
-    const cctv =
-    document.getElementById("cctvPlayer");
+    document.getElementById("cctvPlayer")
+    .style.display = "block";
 
-    cctv.style.display = "block";
+    if(window.Android){
 
-    cctv.src = CCTV_URL;
+        Android.showCCTV(CCTV_CHANNEL);
 
-    cctv.play()
-    .catch(err=>console.log(err));
+    }
 
 }
     
@@ -2014,14 +2007,8 @@ function stopCCTV(){
 
     console.log("CCTV OFF");
 
-    const cctv =
-    document.getElementById("cctvPlayer");
-
-    cctv.pause();
-
-    cctv.src = "";
-
-    cctv.style.display = "none";
+    document.getElementById("cctvPlayer")
+    .style.display = "none";
 
     document.getElementById("slideShow")
     .style.display = "block";
@@ -2029,8 +2016,15 @@ function stopCCTV(){
     document.getElementById("nextSlide")
     .style.display = "block";
 
+    if(window.Android){
+
+        Android.hideCCTV();
+
+    }
+
 }
-    
+
+  
    
 /* ================= LOOP ================= */
 
