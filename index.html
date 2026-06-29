@@ -1594,7 +1594,9 @@ setTimeout(()=>{
 
 
 slideShow.src = next.src;
-
+next.style.opacity = "0";
+slideShow.style.opacity = "1";
+    
 
 next.classList.remove("slide-transition");
 slideShow.classList.remove("slide-old");
@@ -1619,8 +1621,8 @@ setInterval(() => {
     
 setInterval(() => {
 
-    slides = getSlides();
-
+    slides = buildSlides();
+    
 }, 30000);
 
 async function checkGithubUpdate(){
