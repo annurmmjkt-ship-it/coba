@@ -1747,11 +1747,6 @@ async function checkGithubUpdate(){
 
 }    
 
-setInterval(() => {
-
-    slides = buildSlides();
-
-}, 30000);
     
 /* ===== ADMIN ===== */
 
@@ -2008,6 +2003,42 @@ setInterval(moveScreenSaver,600000);
 
 setInterval(checkPrayerTime,1000);
 
+/* ================= CCTV ================= */
+
+let modeCCTV = false;
+
+function showCCTV() {
+
+    modeCCTV = true;
+
+    document.getElementById("cctvContainer").style.display = "block";
+
+    console.log("CCTV AKTIF");
+
+}
+
+function hideCCTV() {
+
+    modeCCTV = false;
+
+    document.getElementById("cctvContainer").style.display = "none";
+
+    console.log("CCTV SELESAI");
+
+}
+
+function testCCTV(){
+
+    showCCTV();
+
+    setTimeout(function(){
+
+        hideCCTV();
+
+    },5000);
+
+}
+    
 </script>  
 
 </body>
