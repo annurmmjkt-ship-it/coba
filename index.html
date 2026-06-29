@@ -20,6 +20,36 @@ left:0;
 
 }
 
+#cctvContainer{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    display:none;
+
+    background:#000;
+
+    z-index:20;
+
+}
+
+#cctvPlayer{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+    
 
 #slideShow{
 
@@ -690,6 +720,17 @@ alt="Slide">
 id="nextSlide"
 class="video-frame"
 src="">    
+
+<div id="cctvContainer">
+
+    <video id="cctvPlayer"
+           autoplay
+           muted
+           playsinline>
+    </video>
+
+</div>
+
     
 </div>
 
