@@ -955,7 +955,18 @@ setInterval(updateClock,1000);
 
 updateClock();
 
-loadConfig();    
+startApplication();    
+
+async function startApplication(){
+
+    await loadConfig();
+
+    console.log("Config aktif :", config.slideInterval);
+
+    startSlideShow();
+
+}
+    
     
 /* ================= FULLSCREEN ================= */
 
@@ -1664,7 +1675,33 @@ if(slideIndex >= slides.length){
 slideIndex=0;
 }
 
+let slideTimer = null;
 
+function startSlideShow(){
+
+    if(slideTimer){
+
+        clearInterval(slideTimer);
+
+    }
+
+    slideTimer = setInterval(
+
+        nextSlide,
+
+        config.slideInterval * 1000
+
+    );
+
+    console.log(
+        "Slide interval =",
+        config.slideInterval,
+        "detik"
+    );
+
+}
+
+    
 next.src=buildSlides()[slideIndex];
 
 
@@ -1697,7 +1734,6 @@ slideShow.classList.remove("slide-old");
    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
-setInterval(nextSlide, config.slideInterval * 1000);    
 checkGithubUpdate();
 
 setInterval(() => {
