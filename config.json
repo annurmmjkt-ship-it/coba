@@ -1,0 +1,17 @@
+{
+    "version": 1,
+
+    "slideInterval": 15,
+
+    "slideTransition": 5,
+
+    "cctvEnable": true,
+
+    "cctvDuration": 20,
+
+    "cctvCamera": 1,
+
+    "cctvUrl": "",
+
+    "refreshMinutes": 5
+}
