@@ -1683,41 +1683,50 @@ let slideTimer = null;
 
 function startSlideShow(){
 
-    console.log("slideInterval =", config.slideInterval);
-
     if(slideTimer){
         clearInterval(slideTimer);
     }
 
-    slideTimer = setInterval(nextSlide, config.slideInterval * 1000);
-}    
-    
-next.src=buildSlides()[slideIndex];
+    slideTimer = setInterval(
+        nextSlide,
+        config.slideInterval * 1000
+    );
 
+    console.log(
+        "Slide interval:",
+        config.slideInterval,
+        "detik"
+    );
+}
 
-// reset animasi
-next.classList.remove("slide-transition");
-slideShow.classList.remove("slide-old");
+function nextSlide(){
 
-void next.offsetWidth;
+    let next = document.getElementById("nextSlide");
 
+    slideIndex++;
 
-// mulai efek
-next.classList.add("slide-transition");
-slideShow.classList.add("slide-old");
+    if(slideIndex >= slides.length){
+        slideIndex = 0;
+    }
 
-setTimeout(()=>{
+    next.src = buildSlides()[slideIndex];
 
+    next.classList.remove("slide-transition");
+    slideShow.classList.remove("slide-old");
 
-slideShow.src = next.src;
+    void next.offsetWidth;
 
+    next.classList.add("slide-transition");
+    slideShow.classList.add("slide-old");
 
-next.classList.remove("slide-transition");
-slideShow.classList.remove("slide-old");
+    setTimeout(()=>{
 
+        slideShow.src = next.src;
 
-},5000);
-  
+        next.classList.remove("slide-transition");
+        slideShow.classList.remove("slide-old");
+
+    },5000);
 
 }
     
