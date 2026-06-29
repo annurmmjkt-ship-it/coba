@@ -131,7 +131,6 @@ color:white;
 touch-action:manipulation;
 }
 
-    
 /* ================= BACKGROUND ================= */
 
 .bg{
@@ -229,8 +228,8 @@ height:calc(100vh - 82px);
 
 .left{
 background:rgba(0,0,0,0.45);
-border-radius:25px;
-padding:20px;
+border-radius:22px;
+padding:16px;
 backdrop-filter:blur(10px);
 border:1px solid rgba(255,255,255,0.08);
 overflow-y:auto;
@@ -251,21 +250,21 @@ text-shadow:0 0 18px rgba(0,255,224,0.35);
 
 .next-box{
 background:linear-gradient(135deg,#ffd700,#ffb300);
-padding:18px;
-border-radius:20px;
+padding:10px;
+border-radius:14px;
 text-align:center;
 color:black;
-margin-bottom:16px;
+margin-bottom:10px;
 }
 
 .next-box h2{
-font-size:22px;
+font-size:16px;
 }
 
 .next-box p{
-font-size:30px;
+font-size:20px;
 font-weight:bold;
-margin-top:6px;
+margin-top:4px;
 }
 
 .countdown{
@@ -277,20 +276,20 @@ margin-top:10px;
 
 .table-title{
 text-align:center;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 color:#ffd700;
-margin-bottom:12px;
+margin-bottom:10px;
 }
 
 .prayer{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:6px 18px;
+padding:4px 14px;
 margin-bottom:9px;
 border-radius:12px;
-font-size:28px;
+font-size:22px;
 background:rgba(255,255,255,0.08);
 transition:0.3s;
 }
@@ -306,9 +305,9 @@ font-weight:bold;
 .qris-box{
 margin-top:auto;
 width:100%;
-height:185px;
+height:180px;
 background:white;
-border-radius:18px;
+border-radius:16px;
 overflow:hidden;
 display:flex;
 align-items:center;
@@ -388,7 +387,7 @@ z-index:999;
 white-space:nowrap;
 display:inline-block;
 padding-left:100%;
-animation:jalan 80s linear infinite;
+animation:jalan 90s linear infinite;
 font-size:40px;
 font-weight:bold;
 color:white;
@@ -592,20 +591,8 @@ color:white;
 font-size:16px;
 }
 
-#cctvLayer{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    display:none;
-    z-index:50;
-    border:none;
-}
-    
 
 </style>
-    
 </head>
 
 <body>
@@ -703,43 +690,6 @@ alt="Slide">
 id="nextSlide"
 class="video-frame"
 src="">    
-
-<video
-id="cctvPlayer"
-class="video-frame"
-autoplay
-muted
-playsinline
-style="
-display:none;
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:20;">
-</video>
-    
-<video
-id="cctvPlayer"
-class="video-frame"
-autoplay
-muted
-playsinline
-style="
-display:none;
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:20;">
-</video>
-
-    
-<!-- CCTV BARU (TAMBAHAN SAJA) -->
     
 </div>
 
@@ -767,7 +717,7 @@ Mohon Tenang & Persiapkan Shalat
 </div>
 
 <div class="overlay-count" id="overlayCount">
-01:00
+05:00
 </div>
 
 </div>
@@ -874,19 +824,6 @@ TUTUP
 
 <script>
 
-let modeCCTV = false;
-
-let cctvTimer = null;
-
-const CCTV_CHANNEL = 7;
-
-const CCTV_DURATION = 20 * 60 * 1000;  
-
-
-
-
-    
-    
 /* ================= JAM ================= */
 
 function updateClock(){
@@ -1293,9 +1230,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat';
 
 document.getElementById('overlayCount')
-.innerHTML = '01:00';
+.innerHTML = '05:00';
 
-let duration = 10;
+let duration = 299;
 
 const interval = setInterval(()=>{
 
@@ -1344,9 +1281,9 @@ document.getElementById('overlaySub')
 'Mohon Tenang & Persiapkan Shalat Jumat';
 
 document.getElementById('overlayCount')
-.innerHTML = '01:00';
+.innerHTML = '05:00';
 
-let duration = 10;
+let duration = 299;
 
 const interval = setInterval(()=>{
 
@@ -1382,7 +1319,7 @@ console.log("Mulai Iqomah:", namaShalat);
 
 modeAzan = false;
 modeIqomah = true;
-       
+
 const overlay = document.getElementById('overlay');
 
 overlay.style.display = 'flex';    
@@ -1399,7 +1336,7 @@ document.getElementById('overlaySub')
 
 /* ===== WAKTU IQOMAH ===== */
 
-let duration = 10; // default 10 menit
+let duration = 600; // default 10 menit
 
 if(
 namaShalat === "MAGHRIB" ||
@@ -1449,25 +1386,28 @@ finishIqomah();
 
 function finishIqomah(){
 
-    modeIqomah = false;
+modeIqomah = false;
 
-    document.getElementById('overlay')
-    .style.display = 'none';
+document.getElementById('overlay')
+.style.display = 'none';
 
-    startCCTV();
 
-    clearTimeout(cctvTimer);
+autoFullscreen();
 
-    cctvTimer = setTimeout(()=>{
+}
 
-        stopCCTV();
+function finishJumat(){
 
-    }, CCTV_DURATION);
+modeAzan = false;
 
-    autoFullscreen();
+document.getElementById('overlay')
+.style.display = 'none';
 
-}    
 
+
+autoFullscreen();
+
+}
 
 /* ================= AUTO CONNECT INTERNET ================= */
 
@@ -1626,8 +1566,6 @@ function refreshSlides(){
 
 function nextSlide(){
 
-if(modeCCTV) return;
-    
 let next=document.getElementById("nextSlide");
 
 
@@ -1975,57 +1913,8 @@ page.style.transform = posisi[movePos];
 
 // bergerak setiap 10 menit
 setInterval(moveScreenSaver,600000);
-
-function startCCTV(){
-
-    if(modeCCTV) return;
-
-    modeCCTV = true;
-
-    console.log("CCTV ON");
-
-    document.getElementById("slideShow")
-    .style.display = "none";
-
-    document.getElementById("nextSlide")
-    .style.display = "none";
-
-    document.getElementById("cctvPlayer")
-    .style.display = "block";
-
-    if(window.Android){
-
-        Android.showCCTV(CCTV_CHANNEL);
-
-    }
-
-}
     
-function stopCCTV(){
-
-    modeCCTV = false;
-
-    console.log("CCTV OFF");
-
-    document.getElementById("cctvPlayer")
-    .style.display = "none";
-
-    document.getElementById("slideShow")
-    .style.display = "block";
-
-    document.getElementById("nextSlide")
-    .style.display = "block";
-
-    if(window.Android){
-
-        Android.hideCCTV();
-
-    }
-
-}
-
-  
-   
+    
 /* ================= LOOP ================= */
 
 setInterval(checkPrayerTime,1000);
