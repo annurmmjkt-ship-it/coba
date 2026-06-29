@@ -1679,28 +1679,18 @@ let slideTimer = null;
 
 function startSlideShow(){
 
+let slideTimer = null;
+
+function startSlideShow(){
+
+    console.log("slideInterval =", config.slideInterval);
+
     if(slideTimer){
-
         clearInterval(slideTimer);
-
     }
 
-    slideTimer = setInterval(
-
-        nextSlide,
-
-        config.slideInterval * 1000
-
-    );
-
-    console.log(
-        "Slide interval =",
-        config.slideInterval,
-        "detik"
-    );
-
-}
-
+    slideTimer = setInterval(nextSlide, config.slideInterval * 1000);
+}    
     
 next.src=buildSlides()[slideIndex];
 
