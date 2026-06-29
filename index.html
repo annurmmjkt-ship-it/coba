@@ -824,6 +824,52 @@ TUTUP
 
 <script>
 
+/* ================= CONFIG ================= */
+
+let config = {
+
+    version:1,
+
+    slideInterval:15,
+
+    slideTransition:5,
+
+    cctvEnable:true,
+
+    cctvDuration:20,
+
+    cctvCamera:1,
+
+    cctvUrl:"",
+
+    refreshMinutes:5
+
+};
+
+async function loadConfig(){
+
+    try{
+
+        const response = await fetch("config.json?v="+Date.now());
+
+        if(!response.ok) return;
+
+        const data = await response.json();
+
+        config = data;
+
+        console.log("Config berhasil dimuat",config);
+
+    }catch(err){
+
+        console.log("Config gagal dimuat");
+
+    }
+
+}
+
+
+    
 /* ================= JAM ================= */
 
 function updateClock(){
@@ -868,6 +914,8 @@ setInterval(updateClock,1000);
 
 updateClock();
 
+loadConfig();    
+    
 /* ================= FULLSCREEN ================= */
 
 async function autoFullscreen(){
