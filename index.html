@@ -1697,7 +1697,7 @@ slideShow.classList.remove("slide-old");
    
 // Interval harus lebih lama dari durasi transisi (misal: 10 detik)
 
-setInterval(nextSlide, 15000);
+setInterval(nextSlide, config.slideInterval * 1000);    
 checkGithubUpdate();
 
 setInterval(() => {
