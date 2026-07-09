@@ -595,6 +595,87 @@ color:white;
 font-size:16px;
 }
 
+/* ================= WAKTU IQOMAH ================= */
+
+.iqomah-row{
+
+display:flex;
+align-items:center;
+
+margin:10px 0;
+
+}
+
+.iqomah-row label{
+
+width:160px;
+
+color:#ffd700;
+
+font-size:22px;
+
+font-weight:bold;
+
+}
+
+.iqomah-row input{
+
+width:70px;
+
+height:38px;
+
+margin-left:20px;
+
+text-align:center;
+
+font-size:22px;
+
+font-weight:bold;
+
+border:none;
+
+border-radius:8px;
+
+}
+
+.iqomah-unit{
+
+margin-left:10px;
+
+font-size:20px;
+
+color:white;
+
+}
+
+.btn-iqomah{
+
+margin-top:20px;
+
+padding:10px 25px;
+
+background:#ffd700;
+
+color:#000;
+
+font-size:18px;
+
+font-weight:bold;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
+
+.btn-iqomah:hover{
+
+background:#ffcc00;
+
+}
+    
 @media (min-width:1600px){
 .main{
     grid-template-columns:minmax(440px,26%) 1fr;
@@ -603,6 +684,9 @@ font-size:16px;
 }
     
 </style>
+
+
+    
 </head>
 
 <body>
@@ -829,33 +913,87 @@ SAVE ALL
 
 <h2>WAKTU IQOMAH</h2>
 
-<div class="upload-row">
+<div class="iqomah-row">
+
 <label>SUBUH</label>
-<input type="number" id="iqSubuh" value="7" min="1" max="30">
+
+<input
+type="number"
+id="iqSubuh"
+value="7"
+min="1"
+max="30">
+
+<span class="iqomah-unit">Menit</span>
+
 </div>
 
-<div class="upload-row">
+<div class="iqomah-row">
+
 <label>DZUHUR</label>
-<input type="number" id="iqDzuhur" value="7" min="1" max="30">
+
+<input
+type="number"
+id="iqDzuhur"
+value="7"
+min="1"
+max="30">
+
+<span class="iqomah-unit">Menit</span>
+
 </div>
 
-<div class="upload-row">
+<div class="iqomah-row">
+
 <label>ASHAR</label>
-<input type="number" id="iqAshar" value="7" min="1" max="30">
+
+<input
+type="number"
+id="iqAshar"
+value="7"
+min="1"
+max="30">
+
+<span class="iqomah-unit">Menit</span>
+
 </div>
 
-<div class="upload-row">
+<div class="iqomah-row">
+
 <label>MAGHRIB</label>
-<input type="number" id="iqMaghrib" value="5" min="1" max="30">
+
+<input
+type="number"
+id="iqMaghrib"
+value="5"
+min="1"
+max="30">
+
+<span class="iqomah-unit">Menit</span>
+
 </div>
 
-<div class="upload-row">
+<div class="iqomah-row">
+
 <label>ISYA</label>
-<input type="number" id="iqIsya" value="7" min="1" max="30">
+
+<input
+type="number"
+id="iqIsya"
+value="7"
+min="1"
+max="30">
+
+<span class="iqomah-unit">Menit</span>
+
 </div>
 
-<button onclick="saveIqomah()">
-SIMPAN WAKTU IQOMAH
+<button
+class="btn-iqomah"
+onclick="saveIqomah()">
+
+💾 SIMPAN WAKTU IQOMAH
+
 </button>
     
 <button onclick="closeAdmin()">
@@ -1738,6 +1876,7 @@ token
 alert("Token tersimpan");
 }
 
+    
 function togglePassword(id){
 
 const input = document.getElementById(id);
@@ -1756,7 +1895,7 @@ if(input.type === "password"){
     
 function saveIqomah(){
 
-const data={
+iqomahSetting = {
 
 SUBUH:parseInt(document.getElementById("iqSubuh").value),
 
@@ -1772,7 +1911,7 @@ ISYA:parseInt(document.getElementById("iqIsya").value)
 
 localStorage.setItem(
 "iqomahSetting",
-JSON.stringify(data)
+JSON.stringify(iqomahSetting)
 );
 
 alert("Waktu iqomah berhasil disimpan");
@@ -1994,17 +2133,16 @@ page.style.transform = posisi[movePos];
 // bergerak setiap 10 menit
 setInterval(moveScreenSaver,600000);
 
-setInterval(()=>{
+/* ================= LOAD WAKTU IQOMAH ================= */
 
-    window.scrollTo(0,1);
-    window.scrollTo(0,0);
-
-},20000);    
-
-const iqomahSetting =
+let iqomahSetting =
 JSON.parse(
 localStorage.getItem("iqomahSetting")
-) || {
+);
+
+if(!iqomahSetting){
+
+iqomahSetting={
 
 SUBUH:7,
 DZUHUR:7,
@@ -2013,6 +2151,8 @@ MAGHRIB:5,
 ISYA:7
 
 };
+
+}
 
 window.addEventListener("load",()=>{
 
@@ -2026,7 +2166,8 @@ document.getElementById("iqMaghrib").value=iqomahSetting.MAGHRIB;
 
 document.getElementById("iqIsya").value=iqomahSetting.ISYA;
 
-});
+});    
+
     
 /* ================= LOOP ================= */
 
