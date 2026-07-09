@@ -740,9 +740,11 @@ Mohon Tenang & Persiapkan Shalat
 <h2>ADMIN UPLOAD SLIDE</h2>
 
 <input type="password" id="adminPass" placeholder="Password Admin">
+<button type="button" onclick="togglePassword('adminPass')">👁</button>
 
 <input type="password" id="githubToken" placeholder="GitHub Token">
-
+<button type="button" onclick="togglePassword('githubToken')">👁</button>
+    
 <br><br>
 
 <div class="upload-row">
@@ -820,7 +822,7 @@ UPLOAD GAMBAR
 <button onclick="saveToken()">SIMPAN TOKEN</button>
 
 <button onclick="uploadSlides()">
-UPLOAD GAMBAR
+SAVE ALL
 </button>
 
 <hr style="margin:20px 0">
@@ -1736,6 +1738,22 @@ token
 alert("Token tersimpan");
 }
 
+function togglePassword(id){
+
+const input = document.getElementById(id);
+
+if(input.type === "password"){
+
+    input.type = "text";
+
+}else{
+
+    input.type = "password";
+
+}
+
+}
+    
 function saveIqomah(){
 
 const data={
