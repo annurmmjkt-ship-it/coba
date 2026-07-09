@@ -820,9 +820,42 @@ UPLOAD GAMBAR
 <button onclick="saveToken()">SIMPAN TOKEN</button>
 
 <button onclick="uploadSlides()">
-UPLOAD KE GITHUB
+UPLOAD KE SERVER
 </button>
 
+<hr style="margin:20px 0">
+
+<h2>WAKTU IQOMAH</h2>
+
+<div class="upload-row">
+<label>SUBUH</label>
+<input type="number" id="iqSubuh" value="7" min="1" max="30">
+</div>
+
+<div class="upload-row">
+<label>DZUHUR</label>
+<input type="number" id="iqDzuhur" value="7" min="1" max="30">
+</div>
+
+<div class="upload-row">
+<label>ASHAR</label>
+<input type="number" id="iqAshar" value="7" min="1" max="30">
+</div>
+
+<div class="upload-row">
+<label>MAGHRIB</label>
+<input type="number" id="iqMaghrib" value="5" min="1" max="30">
+</div>
+
+<div class="upload-row">
+<label>ISYA</label>
+<input type="number" id="iqIsya" value="7" min="1" max="30">
+</div>
+
+<button onclick="saveIqomah()">
+SIMPAN WAKTU IQOMAH
+</button>
+    
 <button onclick="closeAdmin()">
 TUTUP
 </button>
@@ -1350,16 +1383,11 @@ document.getElementById('overlaySub')
 
 /* ===== WAKTU IQOMAH ===== */
 
-let duration = 420; // default 7 menit
+let menit =
+iqomahSetting[namaShalat] || 7;
 
-if(
-namaShalat === "MAGHRIB" ||
-namaShalat === "ISYA"
-){
-
-duration = 420;
-
-}
+let duration = menit * 60;
+    
 
 document.getElementById('overlayCount').innerHTML =
 `${String(Math.floor(duration/60)).padStart(2,'0')}:00`;
@@ -1708,6 +1736,31 @@ token
 alert("Token tersimpan");
 }
 
+function saveIqomah(){
+
+const data={
+
+SUBUH:parseInt(document.getElementById("iqSubuh").value),
+
+DZUHUR:parseInt(document.getElementById("iqDzuhur").value),
+
+ASHAR:parseInt(document.getElementById("iqAshar").value),
+
+MAGHRIB:parseInt(document.getElementById("iqMaghrib").value),
+
+ISYA:parseInt(document.getElementById("iqIsya").value)
+
+};
+
+localStorage.setItem(
+"iqomahSetting",
+JSON.stringify(data)
+);
+
+alert("Waktu iqomah berhasil disimpan");
+
+}
+    
 async function uploadSlides(){
 
 const pass =
@@ -1930,6 +1983,32 @@ setInterval(()=>{
 
 },20000);    
 
+const iqomahSetting =
+JSON.parse(
+localStorage.getItem("iqomahSetting")
+) || {
+
+SUBUH:7,
+DZUHUR:7,
+ASHAR:7,
+MAGHRIB:5,
+ISYA:7
+
+};
+
+window.addEventListener("load",()=>{
+
+document.getElementById("iqSubuh").value=iqomahSetting.SUBUH;
+
+document.getElementById("iqDzuhur").value=iqomahSetting.DZUHUR;
+
+document.getElementById("iqAshar").value=iqomahSetting.ASHAR;
+
+document.getElementById("iqMaghrib").value=iqomahSetting.MAGHRIB;
+
+document.getElementById("iqIsya").value=iqomahSetting.ISYA;
+
+});
     
 /* ================= LOOP ================= */
 
