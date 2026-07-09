@@ -1665,7 +1665,7 @@ async function checkGithubUpdate(){
     try{
 
         const response = await fetch(
-            "https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/commits/main"
+            "https://api.github.com/repos/annurmmjkt-ship-it/coba/commits/main"
         );
 
         const data = await response.json();
@@ -1831,7 +1831,7 @@ try{
 
 const oldFile =
 await fetch(
-`https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/contents/${item.name}`,
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
 {
 headers:{
 Authorization:`Bearer ${token}`
@@ -1851,7 +1851,7 @@ sha = oldData.sha;
 }catch(e){}
 
 await fetch(
-`https://api.github.com/repos/annurmmjkt-ship-it/jadwalshalat/contents/${item.name}`,
+`https://api.github.com/repos/annurmmjkt-ship-it/coba/contents/${item.name}`,
 {
 method:"PUT",
 headers:{
