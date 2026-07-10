@@ -688,6 +688,32 @@ background:#ffcc00;
 }
 
 }
+
+.password-group{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:10px;
+}
+.password-group input{
+flex:1;
+margin-bottom:0 !important;
+}
+.toggle-password{
+width:42px;
+height:36px;
+padding:0;
+font-size:18px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#444;
+color:#fff;
+}
+
+.toggle-password:hover{
+background:#666;
+}
     
 </style>
 
@@ -832,8 +858,19 @@ Mohon Tenang & Persiapkan Shalat
 <input type="password" id="adminPass" placeholder="Password Admin">
 <button type="button" onclick="togglePassword('adminPass')">👁</button>
 
-<input type="password" id="githubToken" placeholder="GitHub Token">
-<button type="button" onclick="togglePassword('githubToken')">👁</button>
+<div class="password-group">
+<input
+type="password"
+id="githubToken"
+placeholder="GitHub Token">
+
+<button
+type="button"
+class="toggle-password"
+onclick="togglePassword('githubToken')">
+👁
+</button>
+</div>
     
 <br><br>
 
