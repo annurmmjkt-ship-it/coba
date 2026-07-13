@@ -1,17 +1,9 @@
 {
-    "version": 1,
-
-    "slideInterval": 5,
-
-    "slideTransition": 5,
-
-    "cctvEnable": true,
-
-    "cctvDuration": 20,
-
-    "cctvCamera": 7,
-
-    "cctvUrl": "",
-
-    "refreshMinutes": 5
+  "iqomah": {
+    "SUBUH": 7,
+    "DZUHUR": 7,
+    "ASHAR": 7,
+    "MAGHRIB": 5,
+    "ISYA": 5
+  }
 }
